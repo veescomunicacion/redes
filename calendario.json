@@ -18,5 +18,17 @@
       "programado": "2026-10-25T18:36:59.216Z",
       "buffer_id": "6ade4b233d5b27036be8088c"
     }
+  },
+  {
+    "id": "2026-10-25-blackfriday-historia-instagram",
+    "cuando": "2026-10-25T19:40:00+01:00",
+    "redes": [
+      "instagram"
+    ],
+    "aprobado": true,
+    "formato": "historia",
+    "imagen": "material/2026-10-blackfriday-historia.jpg",
+    "tema": "Black Friday: producir la campaña gráfica con margen",
+    "objetivo": "visitas a la web"
   }
 ]
