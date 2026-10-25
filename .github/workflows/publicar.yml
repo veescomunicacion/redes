@@ -83,7 +83,9 @@ jobs:
           fi
           git commit -m "Publicador: $ACCION"
           for i in 1 2 3; do
-            if git pull --rebase origin main && git push origin HEAD:main; then exit 0; fi
+            # Si hay conflicto, gana lo que acaba de apuntar el publicador (lo publicado no se puede perder)
+            if git pull --rebase -X theirs origin main && git push origin HEAD:main; then exit 0; fi
+            git rebase --abort 2>/dev/null || true
             sleep 5
           done
           exit 1

@@ -101,6 +101,8 @@ function tipoMedia(e) {
   return 'texto';
 }
 
+const esHistoria = (e) => String(e.formato || '').toLowerCase() === 'historia';
+
 function textoPara(red, e) {
   if (red === 'facebook') return e.texto_facebook || e.texto || '';
   if (red === 'linkedin') return e.texto_linkedin || e.texto || '';
@@ -140,6 +142,10 @@ async function validar(e) {
   if (!redes.length) aviso('no dice en qué "redes" sale');
   for (const red of redes) if (!REDES.includes(red)) aviso(`red desconocida: "${red}"`);
 
+  if (esHistoria(e)) {
+    for (const red of redes) if (red !== 'instagram') aviso(`de momento las historias solo se publican en Instagram, no en ${NOMBRE_RED[red] || red}`, red);
+    if (rutasMedia(e).length !== 1) aviso('una historia lleva exactamente una imagen o un vídeo', 'instagram');
+  }
   for (const red of redes) {
     if (!REDES.includes(red)) continue;
     if (!textoPara(red, e).trim() && !(red === 'instagram' && rutasMedia(e).length)) aviso(`falta el texto de ${NOMBRE_RED[red]}`, red);
@@ -264,7 +270,19 @@ async function publicarInstagram(e) {
   const tipo = tipoMedia(e);
   let contenedor;
 
-  if (tipo === 'foto') {
+  if (esHistoria(e)) {
+    // Historia: sin texto (Instagram no lo admite por la API) y sin pegatinas
+    if (tipo === 'foto') {
+      const image_url = await urlPublica(e, rutasMedia(e)[0]);
+      contenedor = (await graph('POST', `/${ig}/media`, { media_type: 'STORIES', image_url })).id;
+      await esperarContenedor(contenedor, 2 * 60_000, 5_000);
+    } else if (tipo === 'video' && esUrl(e.video)) {
+      contenedor = (await graph('POST', `/${ig}/media`, { media_type: 'STORIES', video_url: e.video })).id;
+      await esperarContenedor(contenedor, 10 * 60_000, 10_000);
+    } else {
+      throw new ErrorRed('Una historia necesita una sola imagen (o un vídeo con enlace público).');
+    }
+  } else if (tipo === 'foto') {
     const image_url = await urlPublica(e, rutasMedia(e)[0]);
     contenedor = (await graph('POST', `/${ig}/media`, { image_url, caption })).id;
     await esperarContenedor(contenedor, 2 * 60_000, 5_000);
@@ -349,6 +367,14 @@ async function publicarFacebook(e) {
 async function yaPublicadoEnMeta(red, e) {
   const desde = Date.parse(e.cuando) - HORA;
   const inicio = (s) => String(s || '').trim().slice(0, 60);
+  if (red === 'instagram' && esHistoria(e)) {
+    // Las historias no tienen texto: se busca una historia creada desde el primer intento
+    const { ig } = await idsMeta();
+    const desdeIntento = Date.parse(e.instagram?.primer_intento || e.instagram?.ultimo_intento || e.cuando) - 5 * 60_000;
+    const r = await graph('GET', `/${ig}/stories`, { fields: 'id,permalink,timestamp' });
+    const m = (r.data || []).find((x) => Date.parse(x.timestamp) >= desdeIntento);
+    return m ? { id: m.id, enlace: m.permalink || null } : null;
+  }
   if (red === 'instagram') {
     const { ig } = await idsMeta();
     const r = await graph('GET', `/${ig}/media`, { fields: 'id,caption,permalink,timestamp', limit: '15' });
@@ -603,7 +629,12 @@ async function publicar() {
           l.push(`- ✅ ${e.id} · ${NOMBRE_RED[red]}: publicado ${r.enlace || ''}`);
           hechos++;
         } catch (err) {
-          e[red] = { error: limpiar(err.message), intentos: (e[red]?.intentos || 0) + 1, ultimo_intento: ahoraISO() };
+          e[red] = {
+            error: limpiar(err.message),
+            intentos: (e[red]?.intentos || 0) + 1,
+            primer_intento: e[red]?.primer_intento || ahoraISO(),
+            ultimo_intento: ahoraISO(),
+          };
           l.push(`- ❌ ${e.id} · ${NOMBRE_RED[red]}: ${limpiar(err.message)}`);
           errores++;
         }
