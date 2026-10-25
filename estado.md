@@ -1,5 +1,23 @@
 # Estado del publicador
 
-Última publicación: dom, 25 oct, 19:31 (hora de Madrid)
+Comprobación: dom, 25 oct, 19:39 (hora de Madrid)
 
-- ✅ 2026-10-25-blackfriday-linkedin · LinkedIn: programado en Buffer para dom, 25 oct, 19:36
+## Meta (Instagram y Facebook)
+
+- ✅ Página de Facebook: **Vees Comunicación**
+- ✅ Instagram: **@veescomunicacion**
+- ✅ Puede leer las publicaciones de la página.
+- ✅ Puede leer Instagram (156 publicaciones, 304 seguidores).
+
+## Buffer (LinkedIn y X)
+
+- ✅ La clave funciona. Organización: **My organization**
+- Canal: twitter — VeesComunicacio
+- Canal: linkedin — vees-comunicacion
+- ✅ LinkedIn conectado
+- ✅ X conectado
+
+## Calendario
+
+- 1 publicaciones (1 aprobadas, 0 sin aprobar).
+
