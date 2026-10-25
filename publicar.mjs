@@ -491,6 +491,20 @@ async function comprobar() {
       const ids = await idsMeta();
       l.push(`- ✅ Página de Facebook: **${ids.nombrePagina}**`);
       l.push(ids.ig ? `- ✅ Instagram: **@${ids.igUsuario}**` : '- ⚠️ Instagram no está vinculado a la página de Facebook.');
+      try {
+        await graph('GET', `/${ids.pagina}/posts`, { fields: 'id', limit: '1' });
+        l.push('- ✅ Puede leer las publicaciones de la página.');
+      } catch (err) {
+        l.push(`- ⚠️ No puede leer las publicaciones de la página: ${limpiar(err.message)}`);
+      }
+      if (ids.ig) {
+        try {
+          const r = await graph('GET', `/${ids.ig}`, { fields: 'media_count,followers_count' });
+          l.push(`- ✅ Puede leer Instagram (${r.media_count ?? '?'} publicaciones, ${r.followers_count ?? '?'} seguidores).`);
+        } catch (err) {
+          l.push(`- ⚠️ No puede leer Instagram: ${limpiar(err.message)}`);
+        }
+      }
     } catch (err) {
       l.push(`- ❌ ${limpiar(err.message)}`);
     }
