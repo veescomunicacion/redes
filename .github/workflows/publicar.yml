@@ -1,0 +1,89 @@
+name: Publicar redes
+
+# Cuándo se ejecuta:
+#  - A mano: Actions → Publicar redes → Run workflow (eligiendo publicar, comprobar o prueba).
+#  - Cuando cambia calendario.json → publicar.
+#  - Cuando cambia el publicador → comprobar.
+#  - Las horas fijas (schedule) se añadirán cuando todo esté probado.
+
+on:
+  workflow_dispatch:
+    inputs:
+      accion:
+        description: "Qué hacer"
+        type: choice
+        options: [publicar, comprobar, prueba]
+        default: publicar
+  push:
+    branches: [main]
+    paths:
+      - calendario.json
+      - publicar.mjs
+      - .github/workflows/publicar.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicador-redes
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Elegir la acción
+        id: accion
+        env:
+          EVENTO: ${{ github.event_name }}
+          ACCION_MANUAL: ${{ inputs.accion }}
+          ANTES: ${{ github.event.before }}
+        run: |
+          ACCION=publicar
+          if [ "$EVENTO" = "workflow_dispatch" ]; then
+            ACCION="$ACCION_MANUAL"
+          elif [ "$EVENTO" = "push" ]; then
+            CAMBIOS="$(git diff --name-only "$ANTES" HEAD 2>/dev/null || echo publicar.mjs)"
+            if echo "$CAMBIOS" | grep -qE '^(publicar\.mjs|\.github/)'; then
+              ACCION=comprobar
+            fi
+          fi
+          echo "accion=$ACCION" >> "$GITHUB_OUTPUT"
+          echo "Acción: $ACCION"
+
+      - name: Ejecutar el publicador
+        env:
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          ACCION: ${{ steps.accion.outputs.accion }}
+        run: node publicar.mjs "$ACCION"
+
+      - name: Guardar el calendario y el estado
+        if: always()
+        env:
+          ACCION: ${{ steps.accion.outputs.accion }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for f in calendario.json estado.md; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
+          if git diff --cached --quiet; then
+            echo "Nada que guardar"
+            exit 0
+          fi
+          git commit -m "Publicador: $ACCION"
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then exit 0; fi
+            sleep 5
+          done
+          exit 1
