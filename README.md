@@ -23,6 +23,17 @@ Aquí vive el sistema que publica en Instagram, Facebook, LinkedIn y X.
 Las imágenes no necesitan estar en internet: el publicador las sube a la página
 de Facebook sin publicarlas y usa esa copia para Instagram y Buffer.
 
+## La herramienta del plan semanal
+
+Claude prepara cada semana el plan en la herramienta **Plan semanal Vees**
+(https://claude.ai/artifact/Np2TpFUikZy37wS1KbY4Qy). Allí Julia revisa, edita, aprueba o pide
+cambios, sube las imágenes y pulsa «Enviar a Claude». Entonces una tarea programada:
+
+1. rehace lo que Julia haya pedido (y lo deja pendiente de aprobar otra vez);
+2. pasa al calendario, con `herramientas/sincronizar.mjs`, solo lo aprobado, con el texto y la
+   imagen tal como se aprobaron, y crea las historias con `herramientas/historia.py`;
+3. devuelve a la herramienta el estado de cada publicación (programada, publicada, error).
+
 ## Lanzarlo a mano
 
 Actions → **Publicar redes** → **Run workflow** → elegir:

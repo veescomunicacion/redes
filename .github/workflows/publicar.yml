@@ -4,9 +4,16 @@ name: Publicar redes
 #  - A mano: Actions → Publicar redes → Run workflow (eligiendo publicar, comprobar o prueba).
 #  - Cuando cambia calendario.json → publicar.
 #  - Cuando cambia el publicador → comprobar.
-#  - Las horas fijas (schedule) se añadirán cuando todo esté probado.
+#  - Horas fijas (schedule, en hora UTC; Madrid es UTC+1 en invierno y UTC+2 en verano):
+#      de lunes a viernes, cada 15 minutos de 7:07 a 20:52 UTC (8:07-21:52 en invierno, 9:07-22:52 en verano);
+#      sábados y domingos, una vez por hora.
+#    Unos 1.400 minutos al mes, dentro de los 2.000 gratis de un repositorio privado.
+#    El cron de GitHub puede retrasarse: por eso el publicador también publica lo que va con retraso (hasta 24 h).
 
 on:
+  schedule:
+    - cron: "7,22,37,52 7-20 * * 1-5"
+    - cron: "7 8-20 * * 0,6"
   workflow_dispatch:
     inputs:
       accion:

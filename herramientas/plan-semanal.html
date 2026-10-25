@@ -1,0 +1,573 @@
+<title>Plan semanal Vees</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: hoja de producción semanal. Cabecera con el tema, barra de estado con la acción principal,
+   imágenes de la semana y, debajo, el calendario día a día con cada publicación como una ficha. */
+:root{
+  --papel:#F6F8FB; --hoja:#FFFFFF; --tinta:#16212E; --tinta-suave:#4F5B68; --linea:#D9E0E8;
+  --azul:#0072CE; --azul-suave:#E5F0FB; --naranja:#F29600; --naranja-osc:#B8420F; --naranja-suave:#FDF0DE;
+  --ok:#1E7F4F; --ok-suave:#E3F4EA; --mal:#B3261E; --mal-suave:#FBE7E5; --info:#0B5CAD;
+  --f-titular:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --f-texto:"Source Sans 3","Segoe UI",Arial,sans-serif;
+  --f-dato:"IBM Plex Mono",ui-monospace,"Consolas",monospace;
+  --radio:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --papel:#0F1620; --hoja:#17212D; --tinta:#E7EDF4; --tinta-suave:#A3B0BE; --linea:#2B3847;
+  --azul:#4DA3F0; --azul-suave:#14304C; --naranja:#F5A623; --naranja-osc:#F08A4B; --naranja-suave:#3A2A14;
+  --ok:#5BC48E; --ok-suave:#173527; --mal:#F2887F; --mal-suave:#3D1D1B; --info:#7DB8F2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --papel:#0F1620; --hoja:#17212D; --tinta:#E7EDF4; --tinta-suave:#A3B0BE; --linea:#2B3847;
+  --azul:#4DA3F0; --azul-suave:#14304C; --naranja:#F5A623; --naranja-osc:#F08A4B; --naranja-suave:#3A2A14;
+  --ok:#5BC48E; --ok-suave:#173527; --mal:#F2887F; --mal-suave:#3D1D1B; --info:#7DB8F2; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--papel);color:var(--tinta);font-family:var(--f-texto);font-size:16px;line-height:1.5}
+.marco{max-width:1120px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-titular);font-weight:700;line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.9rem,4vw,2.6rem)}
+h2{font-size:1.45rem}
+h3{font-size:1.15rem}
+p{margin:0}
+.antetitulo{font-family:var(--f-dato);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--azul)}
+.suave{color:var(--tinta-suave)}
+button,select,textarea,input{font:inherit}
+button{cursor:pointer;border-radius:8px;border:1px solid var(--azul);background:var(--hoja);color:var(--azul);padding:8px 14px;font-weight:600;line-height:1.2}
+button:hover{background:var(--azul-suave)}
+button.principal{background:var(--azul);color:#fff;border-color:var(--azul)}
+button.principal:hover{filter:brightness(1.08);background:var(--azul)}
+button.ok{border-color:var(--ok);color:var(--ok)}
+button.ok:hover{background:var(--ok-suave)}
+button.discreto{border-color:var(--linea);color:var(--tinta-suave)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+a{color:var(--azul)}
+textarea{width:100%;min-height:9rem;border:1px solid var(--linea);border-radius:8px;padding:10px;background:var(--hoja);color:var(--tinta);resize:vertical}
+
+/* Cabecera */
+.cabecera{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:end;border-bottom:3px solid var(--azul);padding-bottom:18px}
+.cabecera .tema{font-size:1.1rem;font-weight:600}
+.cabecera .enfoque{max-width:65ch}
+.selector label{display:block;font-size:.8rem;color:var(--tinta-suave)}
+.selector select{border:1px solid var(--linea);border-radius:8px;padding:6px 10px;background:var(--hoja);color:var(--tinta)}
+@media (max-width:640px){.cabecera{grid-template-columns:1fr}}
+
+/* Barra de estado */
+.barra{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hoja);border:1px solid var(--linea);border-radius:var(--radio);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;box-shadow:0 6px 18px -14px rgba(10,30,60,.45)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--papel)}
+.contadores{display:flex;flex-wrap:wrap;gap:8px}
+.acciones{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#mensaje{flex-basis:100%;font-size:.9rem;min-height:1.3em}
+#mensaje.aviso{color:var(--mal)}
+.confirmar{flex-basis:100%;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--azul-suave);border-radius:8px;padding:10px 12px}
+
+/* Etiquetas de estado */
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:.8rem;font-weight:600;white-space:nowrap;background:var(--papel);color:var(--tinta-suave);border:1px solid var(--linea)}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.chip.pendiente{color:var(--tinta-suave)}
+.chip.aprobado{color:var(--ok);background:var(--ok-suave);border-color:transparent}
+.chip.cambios{color:var(--naranja-osc);background:var(--naranja-suave);border-color:transparent}
+.chip.publicador{color:var(--info);background:var(--azul-suave);border-color:transparent}
+.chip.error{color:var(--mal);background:var(--mal-suave);border-color:transparent}
+.red{font-family:var(--f-dato);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--linea);border-radius:4px;padding:2px 6px;color:var(--tinta)}
+.red.instagram{border-color:var(--naranja);color:var(--naranja-osc)}
+.red.linkedin,.red.facebook{border-color:var(--azul);color:var(--azul)}
+
+/* Imágenes */
+.imagenes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr));gap:16px}
+.imagen{background:var(--hoja);border:1px solid var(--linea);border-radius:var(--radio);padding:16px;display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px}
+@media (max-width:520px){.imagen{grid-template-columns:1fr}}
+.miniatura{width:150px;aspect-ratio:4/5;max-width:100%;border:1px dashed var(--linea);border-radius:6px;background:var(--papel);display:grid;place-items:center;text-align:center;font-size:.8rem;color:var(--tinta-suave);overflow:hidden;padding:6px}
+.miniatura img{width:100%;height:100%;object-fit:cover;display:block}
+.miniatura.lista{border-style:solid;padding:0}
+.imagen .datos{display:flex;flex-direction:column;gap:10px;min-width:0}
+.bloque-copia{display:flex;flex-direction:column;gap:4px}
+.bloque-copia .rotulo{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.8rem;font-weight:600;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.04em}
+.bloque-copia pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--f-dato);font-size:.78rem;background:var(--papel);border:1px solid var(--linea);border-radius:6px;padding:8px;max-height:7.5rem;overflow:auto}
+.bloque-copia .frase{font-family:Arial,"Liberation Sans",sans-serif;color:var(--azul);white-space:pre-line;font-size:1rem}
+.copiar{padding:2px 8px;font-size:.75rem}
+.subir{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
+.subir input{position:absolute;width:1px;height:1px;opacity:0}
+.subir label{border:1px solid var(--azul);border-radius:8px;padding:8px 14px;font-weight:600;color:var(--azul);cursor:pointer;background:var(--hoja)}
+.subir label:hover{background:var(--azul-suave)}
+.subir:focus-within label{outline:3px solid var(--naranja);outline-offset:2px}
+.usada{font-size:.85rem}
+
+/* Calendario */
+.dia{display:grid;grid-template-columns:132px minmax(0,1fr);gap:16px}
+.dia-cabeza{position:relative;padding-top:4px}
+.dia-cabeza .dia-nombre{font-family:var(--f-titular);font-size:1.35rem;font-weight:700;text-transform:capitalize;line-height:1.05}
+.dia-cabeza .dia-fecha{font-family:var(--f-dato);font-size:.8rem;color:var(--tinta-suave)}
+.dia-fichas{display:flex;flex-direction:column;gap:14px;border-left:2px solid var(--linea);padding-left:16px}
+@media (max-width:720px){.dia{grid-template-columns:1fr;gap:8px}.dia-fichas{border-left:0;padding-left:0}}
+.ficha{background:var(--hoja);border:1px solid var(--linea);border-radius:var(--radio);padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.ficha.estado-aprobado{border-color:var(--ok)}
+.ficha.estado-cambios{border-color:var(--naranja)}
+.ficha-cabeza{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.hora{font-family:var(--f-dato);font-weight:500;font-size:.95rem;font-variant-numeric:tabular-nums}
+.formato{font-size:.85rem;color:var(--tinta-suave)}
+.ficha-cabeza .chip{margin-left:auto}
+.ficha-cuerpo{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:start}
+.ficha-cuerpo.sin-imagen{grid-template-columns:minmax(0,1fr)}
+.ficha-cuerpo.historia{grid-template-columns:150px minmax(0,1fr)}
+@media (max-width:520px){.ficha-cuerpo,.ficha-cuerpo.historia{grid-template-columns:1fr}.ficha-cuerpo .vista{max-width:180px}}
+.vista{width:100%;max-width:100%;border-radius:6px;overflow:hidden;border:1px solid var(--linea);background:var(--papel)}
+.vista img,.vista canvas{display:block;width:100%;height:auto}
+.vista .falta{aspect-ratio:4/5;display:grid;place-items:center;text-align:center;font-size:.78rem;color:var(--tinta-suave);padding:8px}
+.vista.vertical .falta{aspect-ratio:9/16}
+.texto{white-space:pre-wrap;word-break:break-word;max-width:65ch}
+.cuenta{font-family:var(--f-dato);font-size:.78rem;color:var(--tinta-suave)}
+.cuenta.pasa{color:var(--mal);font-weight:500}
+.nota{border-radius:8px;padding:8px 12px;font-size:.9rem}
+.nota.cambios{background:var(--naranja-suave)}
+.nota.claude{background:var(--azul-suave)}
+.nota.error{background:var(--mal-suave);color:var(--mal)}
+.nota.ok{background:var(--ok-suave)}
+.ficha-acciones{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.editor{display:flex;flex-direction:column;gap:8px}
+.editor .fila{display:flex;flex-wrap:wrap;gap:8px}
+
+.vacio{background:var(--hoja);border:1px dashed var(--linea);border-radius:var(--radio);padding:28px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+.como{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px;counter-reset:paso}
+.como li{list-style:none;background:var(--hoja);border:1px solid var(--linea);border-radius:var(--radio);padding:14px;counter-increment:paso;display:flex;flex-direction:column;gap:4px}
+.como li::before{content:"Paso " counter(paso);font-family:var(--f-dato);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--azul)}
+.como{padding:0;margin:0}
+@media (prefers-reduced-motion:no-preference){.ficha{transition:border-color .2s}}
+</style>
+
+<div class="marco">
+  <header class="cabecera">
+    <div>
+      <p class="antetitulo">Vees Comunicación · Plan de redes</p>
+      <h1 id="titulo">Plan semanal</h1>
+      <p class="tema" id="tema"></p>
+      <p class="enfoque suave" id="enfoque">Aquí aparecerá el plan de la semana en cuanto Claude lo prepare.</p>
+    </div>
+    <div class="selector" id="selector" hidden>
+      <label for="semana">Semana</label>
+      <select id="semana"></select>
+    </div>
+  </header>
+
+  <section class="barra" aria-label="Estado de la semana">
+    <div class="contadores" id="contadores"></div>
+    <div class="acciones">
+      <button type="button" id="aprobar-todo" class="ok">Aprobar todo lo listo</button>
+      <button type="button" id="enviar" class="principal">Enviar a Claude</button>
+    </div>
+    <div class="confirmar" id="confirmar" hidden>
+      <span id="confirmar-texto"></span>
+      <button type="button" id="confirmar-si" class="ok">Sí, aprobar</button>
+      <button type="button" id="confirmar-no" class="discreto">Cancelar</button>
+    </div>
+    <p id="mensaje" role="status"></p>
+  </section>
+
+  <section aria-labelledby="t-imagenes" style="display:flex;flex-direction:column;gap:12px">
+    <div>
+      <h2 id="t-imagenes">Imágenes de la semana</h2>
+      <p class="suave">Genera la foto con la descripción en ChatGPT, móntala en la <a href="https://claude.ai/artifact/6jZqBttrh27pnyx4P3a5ja" target="_blank" rel="noopener">plantilla de imágenes</a> con su frase y súbela aquí. La historia se crea sola a partir de ella.</p>
+    </div>
+    <div class="imagenes" id="imagenes"></div>
+  </section>
+
+  <section aria-labelledby="t-calendario" style="display:flex;flex-direction:column;gap:18px">
+    <h2 id="t-calendario">Publicaciones</h2>
+    <div id="calendario" style="display:flex;flex-direction:column;gap:22px">
+      <div class="vacio">
+        <h3>Todavía no hay publicaciones</h3>
+        <p class="suave">Cuando Claude prepare la semana, verás aquí cada publicación con su día, su hora y su imagen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-como" style="display:flex;flex-direction:column;gap:12px">
+    <h2 id="t-como">Cómo funciona</h2>
+    <ol class="como">
+      <li><strong>Revisa cada publicación</strong><span class="suave">Apruébala, edita el texto tú misma o pide cambios con un comentario.</span></li>
+      <li><strong>Sube las dos imágenes</strong><span class="suave">Las publicaciones con foto no se pueden aprobar hasta que su imagen esté subida.</span></li>
+      <li><strong>Pulsa «Enviar a Claude»</strong><span class="suave">Claude rehace lo que le hayas pedido y pasa al publicador solo lo aprobado.</span></li>
+      <li><strong>Sale sola a su hora</strong><span class="suave">Aquí verás cuándo queda programada y el enlace cuando se publique.</span></li>
+    </ol>
+  </section>
+</div>
+
+<script>
+(() => {
+  const NOMBRE_RED = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', x: 'X' };
+  const ESTADOS = {
+    pendiente: ['pendiente', 'Pendiente de revisar'],
+    aprobado: ['aprobado', 'Aprobada'],
+    cambios: ['cambios', 'Cambios pedidos'],
+  };
+  const RESULTADOS = {
+    enviado: ['publicador', 'En el publicador'],
+    programado: ['publicador', 'Programada'],
+    publicado: ['aprobado', 'Publicada'],
+    error: ['error', 'Error al publicar'],
+    bloqueada: ['error', 'No se pudo enviar'],
+    caducada: ['error', 'Caducada'],
+    retirada: ['pendiente', 'Retirada'],
+  };
+  const AVISO_HISTORIA = 'Más información en el enlace de nuestra bio';
+  const TZ = 'Europe/Madrid';
+
+  const $ = (id) => document.getElementById(id);
+  const estado = { semanas: {}, imagenes: {}, pubs: {}, config: {}, semana: null, editando: null, pidiendo: null };
+  let db = null, assets = null, mcp = null, user = null, uid = null, puedeEscribir = true;
+
+  // ---------- utilidades
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fecha = (iso, opts) => new Date(iso).toLocaleString('es-ES', { timeZone: TZ, ...opts });
+  const claveDia = (iso) => fecha(iso, { year: 'numeric', month: '2-digit', day: '2-digit' });
+  const urlAsset = (id) => '/_blob/' + encodeURIComponent(id);
+  function largoX(t) {
+    const s = String(t || '').replace(/https?:\/\/\S+/g, 'x'.repeat(23));
+    let n = 0; for (const ch of s) n += ch.codePointAt(0) > 0x2fff ? 2 : 1; return n;
+  }
+  function mensaje(txt, aviso = false) { const m = $('mensaje'); m.textContent = txt; m.className = aviso ? 'aviso' : ''; }
+  const ahoraISO = () => new Date().toISOString();
+
+  function pubsDeSemana() {
+    return Object.values(estado.pubs).filter((p) => p.semana === estado.semana).sort((a, b) => Date.parse(a.cuando) - Date.parse(b.cuando));
+  }
+  function imagenesDeSemana() {
+    return Object.values(estado.imagenes).filter((i) => i.semana === estado.semana).sort((a, b) => (a.orden || 0) - (b.orden || 0));
+  }
+  const bloqueada = (p) => ['programado', 'publicado'].includes(p.resultado?.estado);
+  function imagenLista(p) {
+    if (!p.imagen) return true;
+    return Boolean(estado.imagenes[p.imagen]?.asset_id);
+  }
+
+  // ---------- pintar
+  function pintarCabecera() {
+    const s = estado.semanas[estado.semana];
+    $('titulo').textContent = s?.titulo || 'Plan semanal';
+    $('tema').textContent = s?.tema ? 'Tema: ' + s.tema : '';
+    $('enfoque').textContent = s?.enfoque || (s ? '' : 'Aquí aparecerá el plan de la semana en cuanto Claude lo prepare.');
+    const ids = Object.keys(estado.semanas).sort();
+    const sel = $('semana');
+    $('selector').hidden = ids.length < 2;
+    sel.innerHTML = ids.map((id) => `<option value="${esc(id)}"${id === estado.semana ? ' selected' : ''}>${esc(estado.semanas[id].titulo || id)}</option>`).join('');
+  }
+
+  function pintarContadores() {
+    const ps = pubsDeSemana();
+    const n = (f) => ps.filter(f).length;
+    const pend = n((p) => p.estado !== 'aprobado' && p.estado !== 'cambios');
+    const apr = n((p) => p.estado === 'aprobado' && !p.sincronizado);
+    const camb = n((p) => p.estado === 'cambios');
+    const env = n((p) => p.estado === 'aprobado' && p.sincronizado && ['enviado', 'programado'].includes(p.resultado?.estado));
+    const pub = n((p) => p.resultado?.estado === 'publicado');
+    const err = n((p) => ['error', 'bloqueada', 'caducada'].includes(p.resultado?.estado));
+    $('contadores').innerHTML = [
+      `<span class="chip pendiente">${pend} pendientes</span>`,
+      `<span class="chip aprobado">${apr} aprobadas sin enviar</span>`,
+      camb ? `<span class="chip cambios">${camb} con cambios pedidos</span>` : '',
+      env ? `<span class="chip publicador">${env} en el publicador</span>` : '',
+      pub ? `<span class="chip aprobado">${pub} publicadas</span>` : '',
+      err ? `<span class="chip error">${err} con problemas</span>` : '',
+    ].join('');
+    const listas = ps.filter((p) => p.estado === 'pendiente' && imagenLista(p) && !bloqueada(p)).length;
+    $('aprobar-todo').disabled = !puedeEscribir || !listas;
+    $('aprobar-todo').textContent = listas ? `Aprobar todo lo listo (${listas})` : 'Aprobar todo lo listo';
+    $('enviar').disabled = !puedeEscribir || !(apr || camb);
+    const env2 = estado.config.envio;
+    const sync = estado.config.sincronizacion;
+    if (!$('mensaje').textContent || $('mensaje').dataset.auto) {
+      let txt = '';
+      if (env2?.fecha && (!sync?.fecha || Date.parse(sync.fecha) < Date.parse(env2.fecha))) txt = `Enviado a Claude el ${fecha(env2.fecha, { weekday: 'long', hour: '2-digit', minute: '2-digit' })}. Tarda unos minutos.`;
+      else if (sync?.fecha) txt = `Claude revisó la semana el ${fecha(sync.fecha, { weekday: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}${sync.resumen ? ': ' + sync.resumen : '.'}`;
+      $('mensaje').textContent = txt; $('mensaje').className = ''; $('mensaje').dataset.auto = '1';
+    }
+  }
+
+  function pintarImagenes() {
+    const imgs = imagenesDeSemana();
+    const cont = $('imagenes');
+    if (!imgs.length) { cont.innerHTML = '<p class="suave">Esta semana no lleva imágenes.</p>'; return; }
+    cont.innerHTML = imgs.map((i) => {
+      const usada = pubsDeSemana().filter((p) => p.imagen === i.id)
+        .map((p) => `${NOMBRE_RED[p.red] || p.red}${p.formato === 'historia' ? ' (historia)' : ''} ${fecha(p.cuando, { weekday: 'short', day: 'numeric' })}`).join(' · ');
+      return `<article class="imagen">
+        <div class="miniatura${i.asset_id ? ' lista' : ''}">${i.asset_id ? `<img src="${urlAsset(i.asset_id)}" alt="${esc(i.alt || i.titulo)}">` : 'Falta subir la imagen<br>(JPG de la plantilla, 1080 × 1350)'}</div>
+        <div class="datos">
+          <h3>${esc(i.titulo || 'Imagen')}</h3>
+          ${i.concepto ? `<p class="suave">${esc(i.concepto)}</p>` : ''}
+          <div class="bloque-copia"><div class="rotulo">Descripción para ChatGPT <button type="button" class="copiar" data-accion="copiar" data-campo="prompt" data-id="${esc(i.id)}">Copiar</button></div><pre>${esc(i.prompt)}</pre></div>
+          <div class="bloque-copia"><div class="rotulo">Frase para la plantilla <button type="button" class="copiar" data-accion="copiar" data-campo="frase" data-id="${esc(i.id)}">Copiar</button></div><p class="frase">${esc(i.frase)}</p></div>
+          ${usada ? `<p class="usada suave">Se usa en: ${esc(usada)}</p>` : ''}
+          ${i.nota_claude ? `<p class="nota claude">${esc(i.nota_claude)}</p>` : ''}
+          ${assets && puedeEscribir ? `<div class="subir"><input type="file" id="subir-${esc(i.id)}" accept="image/jpeg" data-accion="subir" data-id="${esc(i.id)}"><label for="subir-${esc(i.id)}">${i.asset_id ? 'Cambiar imagen' : 'Subir imagen'}</label><span class="suave" id="estado-subir-${esc(i.id)}"></span></div>` : ''}
+        </div>
+      </article>`;
+    }).join('');
+  }
+
+  function vistaPub(p) {
+    const img = p.imagen ? estado.imagenes[p.imagen] : null;
+    if (p.formato === 'historia') {
+      if (!img?.asset_id) return `<div class="vista vertical"><div class="falta">La historia se crea al subir ${esc(img?.titulo || 'la imagen')}</div></div>`;
+      return `<div class="vista vertical"><canvas width="1080" height="1920" data-historia="${esc(p.id)}" aria-label="Vista previa de la historia"></canvas></div>`;
+    }
+    if (!p.imagen) return '';
+    if (!img?.asset_id) return `<div class="vista"><div class="falta">Falta subir ${esc(img?.titulo || 'la imagen')}</div></div>`;
+    return `<div class="vista"><img src="${urlAsset(img.asset_id)}" alt="${esc(img.alt || '')}"></div>`;
+  }
+
+  function chipPub(p) {
+    if (p.sincronizado && p.resultado && RESULTADOS[p.resultado.estado] && p.estado === 'aprobado') {
+      const [c, t] = RESULTADOS[p.resultado.estado]; return `<span class="chip ${c}">${t}</span>`;
+    }
+    if (p.resultado && ['bloqueada', 'caducada'].includes(p.resultado.estado) && p.estado === 'aprobado') {
+      const [c, t] = RESULTADOS[p.resultado.estado]; return `<span class="chip ${c}">${t}</span>`;
+    }
+    const [c, t] = ESTADOS[p.estado] || ESTADOS.pendiente; return `<span class="chip ${c}">${t}</span>`;
+  }
+
+  function notasPub(p) {
+    const n = [];
+    if (p.estado === 'cambios' && p.comentario) n.push(`<p class="nota cambios"><strong>Has pedido:</strong> ${esc(p.comentario)}</p>`);
+    if (p.nota_claude && p.estado !== 'cambios') n.push(`<p class="nota claude"><strong>Claude:</strong> ${esc(p.nota_claude)}</p>`);
+    const r = p.resultado;
+    if (r && p.estado === 'aprobado') {
+      if (r.estado === 'publicado') n.push(`<p class="nota ok">Publicada${r.fecha ? ' el ' + esc(fecha(r.fecha, { weekday: 'long', hour: '2-digit', minute: '2-digit' })) : ''}.${r.enlace ? ` <a href="${esc(r.enlace)}" target="_blank" rel="noopener">Ver publicación</a>` : ''}</p>`);
+      else if (r.estado === 'programado') n.push(`<p class="nota claude">Programada en Buffer para el ${esc(fecha(r.fecha, { weekday: 'long', hour: '2-digit', minute: '2-digit' }))}.</p>`);
+      else if (['error', 'bloqueada', 'caducada'].includes(r.estado)) n.push(`<p class="nota error">${esc(r.detalle || 'Algo ha fallado.')}</p>`);
+    }
+    if (p.estado === 'aprobado' && p.imagen && estado.imagenes[p.imagen]?.asset_id && p.aprobado_imagen !== estado.imagenes[p.imagen].asset_id && !bloqueada(p)) {
+      n.push('<p class="nota error">La imagen ha cambiado después de aprobarla. Vuelve a aprobarla.</p>');
+    }
+    return n.join('');
+  }
+
+  function accionesPub(p) {
+    if (!puedeEscribir) return '';
+    if (bloqueada(p)) return '';
+    if (estado.editando === p.id) {
+      return `<div class="editor"><label class="suave" for="editor-${esc(p.id)}">Editar el texto de ${esc(NOMBRE_RED[p.red] || p.red)}</label>
+        <textarea id="editor-${esc(p.id)}">${esc(p.texto)}</textarea>
+        <div class="fila"><button type="button" class="ok" data-accion="guardar-aprobar" data-id="${esc(p.id)}">Guardar y aprobar</button>
+        <button type="button" data-accion="guardar" data-id="${esc(p.id)}">Guardar</button>
+        <button type="button" class="discreto" data-accion="cancelar" data-id="${esc(p.id)}">Cancelar</button></div></div>`;
+    }
+    if (estado.pidiendo === p.id) {
+      return `<div class="editor"><label class="suave" for="pedir-${esc(p.id)}">¿Qué quieres cambiar?</label>
+        <textarea id="pedir-${esc(p.id)}" style="min-height:5rem" placeholder="Por ejemplo: más corto, cambia la llamada a la acción, otro enfoque…">${esc(p.estado === 'cambios' ? p.comentario : '')}</textarea>
+        <div class="fila"><button type="button" class="principal" data-accion="enviar-cambios" data-id="${esc(p.id)}">Guardar petición</button>
+        <button type="button" class="discreto" data-accion="cancelar" data-id="${esc(p.id)}">Cancelar</button></div></div>`;
+    }
+    const lista = imagenLista(p);
+    const b = [];
+    if (p.estado === 'aprobado') b.push(`<button type="button" class="discreto" data-accion="desaprobar" data-id="${esc(p.id)}">Quitar aprobación</button>`);
+    else b.push(`<button type="button" class="ok" data-accion="aprobar" data-id="${esc(p.id)}"${lista ? '' : ' disabled title="Sube antes su imagen"'}>Aprobar</button>`);
+    b.push(`<button type="button" data-accion="editar" data-id="${esc(p.id)}">Editar texto</button>`);
+    b.push(`<button type="button" data-accion="pedir" data-id="${esc(p.id)}">${p.estado === 'cambios' ? 'Cambiar petición' : 'Pedir cambios'}</button>`);
+    if (!lista && p.estado !== 'aprobado') b.push(`<span class="suave">Sube su imagen para poder aprobarla.</span>`);
+    return `<div class="ficha-acciones">${b.join('')}</div>`;
+  }
+
+  function pintarCalendario() {
+    const ps = pubsDeSemana();
+    const cont = $('calendario');
+    if (!ps.length) {
+      cont.innerHTML = `<div class="vacio"><h3>Todavía no hay publicaciones</h3><p class="suave">Cuando Claude prepare la semana, verás aquí cada publicación con su día, su hora y su imagen.</p></div>`;
+      return;
+    }
+    const dias = new Map();
+    for (const p of ps) { const k = claveDia(p.cuando); if (!dias.has(k)) dias.set(k, []); dias.get(k).push(p); }
+    cont.innerHTML = [...dias.values()].map((lista) => {
+      const d = lista[0].cuando;
+      return `<section class="dia"><div class="dia-cabeza"><div class="dia-nombre">${esc(fecha(d, { weekday: 'long' }))}</div><div class="dia-fecha">${esc(fecha(d, { day: 'numeric', month: 'long' }))}</div></div>
+        <div class="dia-fichas">${lista.map((p) => {
+          const vista = vistaPub(p);
+          const cuenta = p.red === 'x' && p.formato !== 'historia' ? (() => { const n = largoX(p.texto); return `<p class="cuenta${n > 280 ? ' pasa' : ''}">${n} / 280 caracteres</p>`; })() : '';
+          const cuerpoTexto = p.formato === 'historia'
+            ? `<div><p class="suave">Historia de Instagram con la ${esc(estado.imagenes[p.imagen]?.titulo?.toLowerCase() || 'imagen')}: misma foto y frase, con el aviso «${esc(p.aviso_historia || AVISO_HISTORIA)}». Sale sin pegatina de enlace.</p></div>`
+            : `<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><p class="texto">${esc(p.texto)}</p>${cuenta}</div>`;
+          const clase = p.formato === 'historia' ? ' historia' : (vista ? '' : ' sin-imagen');
+          return `<article class="ficha estado-${esc(p.estado)}" id="pub-${esc(p.id)}">
+            <div class="ficha-cabeza"><span class="hora">${esc(fecha(p.cuando, { hour: '2-digit', minute: '2-digit' }))}</span><span class="red ${esc(p.red)}">${esc(NOMBRE_RED[p.red] || p.red)}</span><span class="formato">${p.formato === 'historia' ? 'Historia' : (p.imagen ? 'Foto' : 'Texto')}</span>${chipPub(p)}</div>
+            <div class="ficha-cuerpo${clase}">${vista}${cuerpoTexto}</div>
+            ${notasPub(p)}
+            ${accionesPub(p)}
+          </article>`;
+        }).join('')}</div></section>`;
+    }).join('');
+    cont.querySelectorAll('canvas[data-historia]').forEach((c) => dibujarHistoria(c, estado.pubs[c.dataset.historia]));
+  }
+
+  // Misma composición que herramientas/historia.py
+  const cacheImg = new Map();
+  function cargarImg(src) {
+    if (!cacheImg.has(src)) cacheImg.set(src, new Promise((ok, mal) => { const i = new Image(); i.onload = () => ok(i); i.onerror = mal; i.src = src; }));
+    return cacheImg.get(src);
+  }
+  async function dibujarHistoria(canvas, p) {
+    const img = estado.imagenes[p.imagen];
+    if (!img?.asset_id) return;
+    let feed;
+    try { feed = await cargarImg(urlAsset(img.asset_id)); } catch { return; }
+    const x = canvas.getContext('2d');
+    const k = feed.naturalWidth / 1080, kh = feed.naturalHeight / 1350;
+    x.fillStyle = '#fff'; x.fillRect(0, 0, 1080, 1920);
+    x.drawImage(feed, 0, 216 * kh, 1080 * k, 948 * kh, 0, 490, 1080, 948);
+    x.drawImage(feed, 360 * k, 50 * kh, 360 * k, 160 * kh, 360, 284, 360, 160);
+    x.strokeStyle = '#0072CE'; x.lineWidth = 3; x.strokeRect(31.5, 261.5, 1018, 1417);
+    const lineas = String(img.frase || '').split('\n').map((l) => l.trim()).filter(Boolean).slice(0, 2);
+    let tam = 50; const fam = "Arial, 'Liberation Sans', Helvetica, sans-serif";
+    x.font = `${tam}px ${fam}`;
+    while (tam > 34 && Math.max(...lineas.map((l) => x.measureText(l).width)) > 940) { tam--; x.font = `${tam}px ${fam}`; }
+    const lh = Math.round(tam * 1.15), aviso = p.aviso_historia || AVISO_HISTORIA;
+    const alto = lh * lineas.length + 26 + 44;
+    const y0 = 1438 + ((1680 - 1438) - alto) / 2;
+    x.textAlign = 'center'; x.textBaseline = 'top'; x.fillStyle = '#0072CE';
+    lineas.forEach((l, i) => x.fillText(l, 540, y0 + i * lh));
+    x.font = `bold 38px ${fam}`; x.fillStyle = '#CD4214';
+    x.fillText(aviso, 540, y0 + lh * lineas.length + 26);
+  }
+
+  function pintar() {
+    const ids = Object.keys(estado.semanas).sort();
+    if (!estado.semana || !estado.semanas[estado.semana]) {
+      const hoy = new Date().toISOString().slice(0, 10);
+      estado.semana = ids.filter((id) => (estado.semanas[id].hasta || id) >= hoy)[0] || ids.at(-1) || null;
+    }
+    pintarCabecera(); pintarContadores(); pintarImagenes(); pintarCalendario();
+  }
+
+  // ---------- acciones
+  async function actualizar(id, campos) {
+    try { await db.doc('publicaciones/' + id).update(campos); return true; }
+    catch (e) {
+      if (e?.code === 'invalid_argument') { puedeEscribir = false; mensaje('No tienes permiso para cambiar este plan. Pídele a Julia que lo revise.', true); pintar(); }
+      else mensaje('No se ha podido guardar. Inténtalo otra vez en unos segundos.', true);
+      return false;
+    }
+  }
+  function camposAprobar(p, texto) {
+    const img = p.imagen ? estado.imagenes[p.imagen] : null;
+    return { estado: 'aprobado', comentario: null, revisado_por: uid, revisado_en: ahoraISO(), aprobado_texto: texto ?? p.texto ?? null, aprobado_imagen: img?.asset_id ?? null };
+  }
+  const camposDesaprobar = () => ({ aprobado_texto: null, aprobado_imagen: null });
+
+  async function aprobar(id) {
+    const p = estado.pubs[id];
+    if (!imagenLista(p)) { mensaje('Sube primero su imagen.', true); return; }
+    if (p.red === 'x' && p.formato !== 'historia' && largoX(p.texto) > 280) { mensaje('El texto de X pasa de 280 caracteres: acórtalo antes de aprobar.', true); return; }
+    if (await actualizar(id, camposAprobar(p))) mensaje('Aprobada. Cuando termines, pulsa «Enviar a Claude».');
+  }
+
+  async function subir(id, file) {
+    const out = $('estado-subir-' + id);
+    if (!file) return;
+    if (file.type !== 'image/jpeg') { out.textContent = 'Tiene que ser un JPG (el que descargas de la plantilla).'; return; }
+    const dims = await new Promise((ok) => { const i = new Image(); i.onload = () => ok([i.naturalWidth, i.naturalHeight]); i.onerror = () => ok([0, 0]); i.src = URL.createObjectURL(file); });
+    out.textContent = 'Subiendo…';
+    try {
+      const r = await assets.upload(file);
+      await db.doc('imagenes/' + id).update({ asset_id: r.id, subido_en: ahoraISO(), subido_por: uid, ancho: dims[0], alto: dims[1] });
+      // Lo aprobado con la imagen anterior vuelve a pendiente
+      for (const p of Object.values(estado.pubs)) {
+        if (p.imagen === id && p.estado === 'aprobado' && !bloqueada(p)) await actualizar(p.id, { estado: 'pendiente', ...camposDesaprobar() });
+      }
+      out.textContent = dims[0] === 1080 && dims[1] === 1350 ? 'Subida.' : `Subida. Ojo: mide ${dims[0]} × ${dims[1]} px; la plantilla da 1080 × 1350.`;
+    } catch (e) {
+      out.textContent = e?.code === 'too_large' ? 'La imagen pesa demasiado (máximo 20 MB).' : 'No se ha podido subir. Inténtalo otra vez.';
+    }
+  }
+
+  async function enviarAClaude() {
+    const ps = pubsDeSemana();
+    const apr = ps.filter((p) => p.estado === 'aprobado' && !p.sincronizado).length;
+    const camb = ps.filter((p) => p.estado === 'cambios').length;
+    if (!mcp || !estado.config.ajustes?.tarea) {
+      mensaje('Desde aquí no puedo avisar a Claude. Escríbele en el chat: «revisa el plan semanal».', true); return;
+    }
+    $('enviar').disabled = true;
+    mensaje('Avisando a Claude…');
+    try {
+      await mcp.callTool('Claude Code Remote', 'fire_trigger', { trigger_id: estado.config.ajustes.tarea, text: `Enviado desde la herramienta del plan semanal (semana ${estado.semana}): ${apr} aprobadas sin enviar, ${camb} con cambios pedidos.` });
+      try { await db.doc('config/envio').set({ fecha: ahoraISO(), por: uid, semana: estado.semana }); } catch {}
+      mensaje(`Hecho. Claude ${camb ? 'rehará lo que has pedido' : ''}${camb && apr ? ' y ' : ''}${apr ? 'pasará al publicador lo aprobado' : ''}. Verás los cambios aquí en unos minutos.`);
+      delete $('mensaje').dataset.auto;
+    } catch (e) {
+      const t = { approval_required: 'Hace falta que permitas a esta página usar «Claude Code Remote». Vuelve a pulsar y acepta.', consent_required: 'Hace falta que permitas a esta página usar «Claude Code Remote». Vuelve a pulsar y acepta.', not_granted: 'No has dado permiso a la página para avisar a Claude. Escríbele en el chat: «revisa el plan semanal».', server_not_connected: 'El conector «Claude Code Remote» no está disponible. Escríbele a Claude en el chat: «revisa el plan semanal».', rate_limited: 'Demasiados avisos seguidos. Espera un minuto y vuelve a pulsar.' }[e?.code];
+      mensaje(t || 'No se ha podido avisar a Claude. Escríbele en el chat: «revisa el plan semanal».', true);
+      delete $('mensaje').dataset.auto;
+    } finally { pintarContadores(); }
+  }
+
+  document.addEventListener('click', async (ev) => {
+    const b = ev.target.closest('button[data-accion]');
+    if (!b) return;
+    const id = b.dataset.id, p = estado.pubs[id], acc = b.dataset.accion;
+    delete $('mensaje').dataset.auto;
+    if (acc === 'copiar') {
+      const t = estado.imagenes[id]?.[b.dataset.campo] || '';
+      try { await navigator.clipboard.writeText(t); b.textContent = 'Copiado'; setTimeout(() => (b.textContent = 'Copiar'), 1500); }
+      catch { const pre = b.closest('.bloque-copia').querySelector('pre,.frase'); const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); mensaje('Texto seleccionado: cópialo con Ctrl+C.'); }
+      return;
+    }
+    if (acc === 'aprobar') return aprobar(id);
+    if (acc === 'desaprobar') { if (await actualizar(id, { estado: 'pendiente', ...camposDesaprobar() })) mensaje('Aprobación quitada.'); return; }
+    if (acc === 'editar') { estado.editando = id; estado.pidiendo = null; pintarCalendario(); $('editor-' + id)?.focus(); return; }
+    if (acc === 'pedir') { estado.pidiendo = id; estado.editando = null; pintarCalendario(); $('pedir-' + id)?.focus(); return; }
+    if (acc === 'cancelar') { estado.editando = estado.pidiendo = null; pintarCalendario(); return; }
+    if (acc === 'guardar' || acc === 'guardar-aprobar') {
+      const texto = $('editor-' + id).value;
+      if (acc === 'guardar-aprobar' && !imagenLista(p)) { mensaje('Sube primero su imagen.', true); return; }
+      if (acc === 'guardar-aprobar' && p.red === 'x' && largoX(texto) > 280) { mensaje('El texto de X pasa de 280 caracteres.', true); return; }
+      const campos = acc === 'guardar-aprobar' ? { texto, editado_por_julia: true, ...camposAprobar(p, texto) } : { texto, editado_por_julia: true, estado: 'pendiente', ...camposDesaprobar() };
+      if (await actualizar(id, campos)) { estado.editando = null; mensaje(acc === 'guardar' ? 'Texto guardado. Está pendiente de aprobar.' : 'Texto guardado y aprobado.'); pintar(); }
+      return;
+    }
+    if (acc === 'enviar-cambios') {
+      const c = $('pedir-' + id).value.trim();
+      if (!c) { mensaje('Escribe qué quieres cambiar.', true); return; }
+      if (await actualizar(id, { estado: 'cambios', comentario: c, revisado_por: uid, revisado_en: ahoraISO(), ...camposDesaprobar() })) { estado.pidiendo = null; mensaje('Petición guardada. Cuando acabes de revisar, pulsa «Enviar a Claude».'); pintar(); }
+    }
+  });
+  document.addEventListener('change', (ev) => {
+    const i = ev.target.closest('input[data-accion="subir"]');
+    if (i) subir(i.dataset.id, i.files[0]);
+  });
+  $('semana').addEventListener('change', (e) => { estado.semana = e.target.value; estado.editando = estado.pidiendo = null; pintar(); });
+  $('enviar').addEventListener('click', enviarAClaude);
+  $('aprobar-todo').addEventListener('click', () => {
+    const listas = pubsDeSemana().filter((p) => p.estado === 'pendiente' && imagenLista(p) && !bloqueada(p) && !(p.red === 'x' && largoX(p.texto) > 280));
+    if (!listas.length) return;
+    $('confirmar-texto').textContent = `Vas a aprobar ${listas.length} publicaciones tal como están. ¿Seguro?`;
+    $('confirmar').hidden = false; $('confirmar-si').focus();
+  });
+  $('confirmar-no').addEventListener('click', () => { $('confirmar').hidden = true; });
+  $('confirmar-si').addEventListener('click', async () => {
+    $('confirmar').hidden = true;
+    const listas = pubsDeSemana().filter((p) => p.estado === 'pendiente' && imagenLista(p) && !bloqueada(p) && !(p.red === 'x' && largoX(p.texto) > 280));
+    let ok = 0;
+    for (const p of listas) if (await actualizar(p.id, camposAprobar(p))) ok++;
+    mensaje(`${ok} publicaciones aprobadas. Cuando termines, pulsa «Enviar a Claude».`);
+  });
+
+  // ---------- arranque
+  (async () => {
+    db = await claude.use('db');
+    if (!db) { $('enfoque').textContent = 'No se puede cargar el plan en esta vista. Ábrelo desde claude.ai.'; $('enviar').disabled = $('aprobar-todo').disabled = true; return; }
+    [assets, mcp, user] = await Promise.all([claude.use('assets'), claude.use('mcp'), claude.use('user')]);
+    try { uid = user ? await user.id() : null; } catch { uid = null; }
+    try { const w = user ? await user.can('data.write') : null; if (w === false) puedeEscribir = false; } catch {}
+    const escuchar = (col, clave) => db.collection(col).onSnapshot((snap) => {
+      const m = {}; snap.docs.forEach((d) => { if (d.exists) m[d.id] = { id: d.id, ...d.data() }; });
+      estado[clave] = m; pintar();
+    }, () => mensaje('Se ha perdido la conexión con el plan. Recarga la página.', true));
+    escuchar('semanas', 'semanas');
+    escuchar('imagenes', 'imagenes');
+    escuchar('publicaciones', 'pubs');
+    escuchar('config', 'config');
+  })();
+  pintar();
+})();
+</script>
