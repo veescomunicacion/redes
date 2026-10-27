@@ -3,6 +3,7 @@
 Uso: python3 herramientas/reel.py SALIDA.mp4 SEGUNDOS IMAGEN1.jpg IMAGEN2.jpg [...] [--completa] [--audio AUDIO]
 
 --completa: las imágenes ya están montadas a pantalla completa con herramientas/pantalla.py.
+--post: Reel del tamaño de un post (1080 × 1350), con las imágenes de post de la plantilla tal cual.
 
 - Acepta imágenes de historia (1080 × 1920) o de post (1080 × 1350).
 - Reduce el contenido para que quede dentro de la zona segura de los Reels: arriba Instagram pone
@@ -48,9 +49,14 @@ def con_zoom(img, z):
 
 
 def main():
+    global H, CENTRO_Y, ZOOM_FINAL
     args = sys.argv[1:]
     completa = '--completa' in args
-    args = [a for a in args if a != '--completa']
+    if '--post' in args:
+        # Reel del tamaño de un post (1080 × 1350) con las imágenes de la plantilla tal cual.
+        # Zoom más suave para que el marco azul (a 30 px del borde) no se salga.
+        H, CENTRO_Y, ZOOM_FINAL, completa = 1350, 675, 1.02, True
+    args = [a for a in args if a not in ('--completa', '--post')]
     audio = None
     if '--audio' in args:
         i = args.index('--audio')
