@@ -1,6 +1,6 @@
 # Estado del publicador
 
-Comprobación: dom, 25 oct, 19:53 (hora de Madrid)
+Comprobación: mar, 27 oct, 16:18 (hora de Madrid)
 
 ## Meta (Instagram y Facebook)
 
