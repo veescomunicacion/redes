@@ -132,5 +132,21 @@
       "programado": "2026-10-27T18:05:18.935Z",
       "buffer_id": "6ae0e6b551c7284440ea730f"
     }
+  },
+  {
+    "id": "2026-10-27-halloween-linkedin",
+    "cuando": "2026-10-27T18:16:03.267Z",
+    "redes": [
+      "linkedin"
+    ],
+    "aprobado": true,
+    "aprobado_en": "2026-10-27T18:17:03.267Z",
+    "origen": "chat (aprobado por Julia)",
+    "imagen": "material/2026-10-halloween-linkedin.jpg",
+    "texto_linkedin": "🎃 El escaparate de Halloween que funciona no es el que da más miedo, es el que acaba en el móvil de la gente.\n\nCada foto que un cliente sube de un escaparate enseña esa tienda a todos sus seguidores. Y conseguirlo no depende del presupuesto, sino de tres decisiones:\n\n· Da un solo mensaje. Si el escaparate anuncia Halloween, el descuento y la colección nueva a la vez, el cliente no recuerda ninguno de los tres. Elige el más importante y repítelo en todos los carteles.\n\n· No te quedes en el escaparate. Si la decoración se acaba en el cristal, el cliente nota el corte al entrar. El mismo mensaje tiene que seguir en las estanterías y en el mostrador.\n\n· Pónselo fácil a la cámara. Un rincón bien montado acaba publicado por tus propios clientes, y eso es visibilidad que no has pagado.\n\nUn cartel mal pensado cuesta lo mismo que uno bien pensado, pero no vende igual. La diferencia está en decidir qué vas a decir y dónde va cada pieza antes de mandar nada a imprimir.\n\n¿Tu escaparate ya está listo? 👻\n\n#Halloween #Escaparatismo #VisualMerchandising #PuntoDeVenta #EquipoVees",
+    "formato": "foto",
+    "tema": "Halloween: el escaparate que acaba en el móvil de la gente",
+    "objetivo": "alcance y marca",
+    "alt": "Escaparate de una tienda de dulces decorado para Halloween, con el cartel «Especial Halloween» y una mujer haciéndole una foto con el móvil."
   }
 ]
