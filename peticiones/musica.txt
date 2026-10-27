@@ -2,7 +2,12 @@
 # en la biblioteca de Instagram y deja el resultado en musica.md.
 segundos = 15
 halloween
-spooky
-halloween party
-trick or treat
-# 2026-10-27T13:01:58Z
+spooky halloween
+horror
+creepy
+haunted house
+witch
+ghost
+scary
+suspense
+monster

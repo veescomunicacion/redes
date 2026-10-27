@@ -695,27 +695,31 @@ async function musica() {
     }
   }
   l.push('');
-  const lista = [...vistas.values()].filter((a) => !a.duration_in_ms || a.duration_in_ms >= segundos * 1000);
+  // Primero las que por el título suenan más a Halloween
+  const CLAVES = /hallow|spook|horror|creep|scar|ghost|ghoul|witch|haunt|monster|zombie|vampir|skelet|pumpkin|trick|treat|terror|miedo|fantasm|bruj|dark|night|myster|thrill|suspens|macabr|eerie|grave|tomb|curse|spider|bat|boo/i;
+  const puntos = (a) => (CLAVES.test(`${a.title} ${a.display_artist}`) ? 1 : 0);
+  const lista = [...vistas.values()]
+    .filter((a) => !a.duration_in_ms || a.duration_in_ms >= segundos * 1000)
+    .sort((a, b) => puntos(b) - puntos(a));
   if (!lista.length) return { lineas: [...l, 'No ha salido ninguna canción.'], errores: 1 };
 
   const { mkdir, rm } = await import('node:fs/promises');
-  const { execFileSync } = await import('node:child_process');
   await rm('musica/previa', { recursive: true, force: true });
   await mkdir('musica/previa', { recursive: true });
-  l.push('| # | Canción | Artista | Duración | id | Escuchar en Instagram | Previa |', '|---|---|---|---|---|---|---|');
+  l.push('| # | Canción | Artista | Duración | Búsqueda | id | Escuchar en Instagram | Previa |', '|---|---|---|---|---|---|---|---|');
   let n = 0;
-  for (const a of lista.slice(0, 12)) {
+  let descargadas = 0;
+  for (const a of lista.slice(0, 24)) {
     n++;
     let previa = '';
-    if (a.download_url && n <= 8) {
+    if (a.download_url && descargadas < 12) {
       try {
         const res = await fetch(a.download_url);
         if (res.ok) {
-          const tmp = `musica/previa/${a.audio_id}.orig`;
-          await writeFile(tmp, Buffer.from(await res.arrayBuffer()));
-          execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', tmp, '-t', String(segundos), '-vn', '-c:a', 'aac', '-b:a', '128k', `musica/previa/${a.audio_id}.m4a`]);
-          await rm(tmp, { force: true });
-          previa = `musica/previa/${a.audio_id}.m4a`;
+          // Se guarda el archivo tal cual: solo para escucharlo antes de elegir (se borra en la siguiente búsqueda)
+          previa = `musica/previa/${a.audio_id}.orig`;
+          await writeFile(previa, Buffer.from(await res.arrayBuffer()));
+          descargadas++;
         }
       } catch (err) {
         previa = `❌ ${limpiar(err.message).slice(0, 60)}`;
@@ -723,7 +727,7 @@ async function musica() {
     }
     const dur = a.duration_in_ms ? `${Math.round(a.duration_in_ms / 1000)} s` : '?';
     const celda = (s) => String(s ?? '').replace(/\|/g, '/');
-    l.push(`| ${n} | ${celda(a.title)} | ${celda(a.display_artist || a.ig_username)} | ${dur} | ${a.audio_id} | ${a.on_platform_audio_preview_link || ''} | ${previa} |`);
+    l.push(`| ${n} | ${celda(a.title)} | ${celda(a.display_artist || a.ig_username)} | ${dur} | ${celda(a.consulta)} | ${a.audio_id} | ${a.on_platform_audio_preview_link || ''} | ${previa} |`);
   }
   return { lineas: l, errores: 0 };
 }
