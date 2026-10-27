@@ -53,9 +53,9 @@ def main():
     args = sys.argv[1:]
     completa = '--completa' in args
     if '--post' in args:
-        # Reel del tamaño de un post (1080 × 1350) con las imágenes de la plantilla tal cual.
-        # Zoom más suave para que el marco azul (a 30 px del borde) no se salga.
-        H, CENTRO_Y, ZOOM_FINAL, completa = 1350, 675, 1.02, True
+        # Reel del tamaño de un post (1080 × 1350) con las imágenes de la plantilla tal cual,
+        # sin zoom: tiene que verse exactamente igual que un post normal.
+        H, CENTRO_Y, ZOOM_FINAL, completa = 1350, 675, 1.0, True
     args = [a for a in args if a not in ('--completa', '--post')]
     audio = None
     if '--audio' in args:
