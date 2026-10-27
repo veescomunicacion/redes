@@ -24,7 +24,12 @@ def componer(post, salida):
     fondo = foto.resize((round(foto.width * r), round(foto.height * r)), Image.LANCZOS)
     fondo = fondo.crop(((fondo.width - W) // 2, (fondo.height - H) // 2, (fondo.width - W) // 2 + W, (fondo.height - H) // 2 + H))
     fondo = ImageEnhance.Brightness(fondo.filter(ImageFilter.GaussianBlur(40))).enhance(0.7)
-    fondo.paste(im, (0, (H - 1350) // 2))
+    # La cuadrícula del perfil enseña el centro 3:4 (1080 × 1440). El post se escala para llenar justo
+    # esa franja, recortando los lados igual que hace Instagram con los posts normales en la cuadrícula.
+    G = 1440
+    esc = im.resize((round(1080 * G / 1350), G), Image.LANCZOS)
+    centro = esc.crop(((esc.width - W) // 2, 0, (esc.width - W) // 2 + W, G))
+    fondo.paste(centro, (0, (H - G) // 2))
     fondo.save(salida, quality=95)
 
 
