@@ -82,6 +82,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .miniatura{width:150px;aspect-ratio:4/5;max-width:100%;border:1px dashed var(--linea);border-radius:6px;background:var(--papel);display:grid;place-items:center;text-align:center;font-size:.8rem;color:var(--tinta-suave);overflow:hidden;padding:6px}
 .miniatura img{width:100%;height:100%;object-fit:cover;display:block}
 .miniatura.lista{border-style:solid;padding:0}
+.miniatura.vertical{aspect-ratio:9/16}
 .imagen .datos{display:flex;flex-direction:column;gap:10px;min-width:0}
 .bloque-copia{display:flex;flex-direction:column;gap:4px}
 .bloque-copia .rotulo{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.8rem;font-weight:600;color:var(--tinta-suave);text-transform:uppercase;letter-spacing:.04em}
@@ -292,13 +293,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     cont.innerHTML = imgs.map((i) => {
       const usada = pubsDeSemana().filter((p) => p.imagen === i.id)
         .map((p) => `${NOMBRE_RED[p.red] || p.red}${p.formato === 'historia' ? ' (historia)' : ''} ${fecha(p.cuando, { weekday: 'short', day: 'numeric' })}`).join(' · ');
+      const vertical = i.tipo === 'historia';
       return `<article class="imagen">
-        <div class="miniatura${i.asset_id ? ' lista' : ''}">${i.asset_id ? `<img src="${urlAsset(i.asset_id)}" alt="${esc(i.alt || i.titulo)}">` : 'Falta subir la imagen<br>(JPG de la plantilla, 1080 × 1350)'}</div>
+        <div class="miniatura${i.asset_id ? ' lista' : ''}${vertical ? ' vertical' : ''}">${i.asset_id ? `<img src="${urlAsset(i.asset_id)}" alt="${esc(i.alt || i.titulo)}">` : `Falta subir la imagen<br>(JPG de la plantilla, ${vertical ? '1080 × 1920' : '1080 × 1350'})`}</div>
         <div class="datos">
           <h3>${esc(i.titulo || 'Imagen')}</h3>
           ${i.concepto ? `<p class="suave">${esc(i.concepto)}</p>` : ''}
-          <div class="bloque-copia"><div class="rotulo">Descripción para ChatGPT <button type="button" class="copiar" data-accion="copiar" data-campo="prompt" data-id="${esc(i.id)}">Copiar</button></div><pre>${esc(i.prompt)}</pre></div>
-          <div class="bloque-copia"><div class="rotulo">Frase para la plantilla <button type="button" class="copiar" data-accion="copiar" data-campo="frase" data-id="${esc(i.id)}">Copiar</button></div><p class="frase">${esc(i.frase)}</p></div>
+          ${i.prompt ? `<div class="bloque-copia"><div class="rotulo">Descripción para ChatGPT <button type="button" class="copiar" data-accion="copiar" data-campo="prompt" data-id="${esc(i.id)}">Copiar</button></div><pre>${esc(i.prompt)}</pre></div>` : ''}
+          ${i.frase ? `<div class="bloque-copia"><div class="rotulo">Frase de la imagen <button type="button" class="copiar" data-accion="copiar" data-campo="frase" data-id="${esc(i.id)}">Copiar</button></div><p class="frase">${esc(i.frase)}</p></div>` : ''}
           ${usada ? `<p class="usada suave">Se usa en: ${esc(usada)}</p>` : ''}
           ${i.nota_claude ? `<p class="nota claude">${esc(i.nota_claude)}</p>` : ''}
           ${assets && puedeEscribir ? `<div class="subir"><input type="file" id="subir-${esc(i.id)}" accept="image/jpeg" data-accion="subir" data-id="${esc(i.id)}"><label for="subir-${esc(i.id)}">${i.asset_id ? 'Cambiar imagen' : 'Subir imagen'}</label><span class="suave" id="estado-subir-${esc(i.id)}"></span></div>` : ''}
@@ -310,6 +312,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   function vistaPub(p) {
     const img = p.imagen ? estado.imagenes[p.imagen] : null;
     if (p.formato === 'historia') {
+      if (img?.tipo === 'historia') {
+        if (!img.asset_id) return `<div class="vista vertical"><div class="falta">Falta subir ${esc(img.titulo || 'la imagen')}</div></div>`;
+        return `<div class="vista vertical"><img src="${urlAsset(img.asset_id)}" alt="${esc(img.alt || '')}"></div>`;
+      }
       if (!img?.asset_id) return `<div class="vista vertical"><div class="falta">La historia se crea al subir ${esc(img?.titulo || 'la imagen')}</div></div>`;
       return `<div class="vista vertical"><canvas width="1080" height="1920" data-historia="${esc(p.id)}" aria-label="Vista previa de la historia"></canvas></div>`;
     }
@@ -385,8 +391,11 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
         <div class="dia-fichas">${lista.map((p) => {
           const vista = vistaPub(p);
           const cuenta = p.red === 'x' && p.formato !== 'historia' ? (() => { const n = largoX(p.texto); return `<p class="cuenta${n > 280 ? ' pasa' : ''}">${n} / 280 caracteres</p>`; })() : '';
+          const imgP = estado.imagenes[p.imagen];
           const cuerpoTexto = p.formato === 'historia'
-            ? `<div><p class="suave">Historia de Instagram con la ${esc(estado.imagenes[p.imagen]?.titulo?.toLowerCase() || 'imagen')}: misma foto y frase, con el aviso «${esc(p.aviso_historia || AVISO_HISTORIA)}». Sale sin pegatina de enlace.</p></div>`
+            ? (imgP?.tipo === 'historia'
+              ? `<div><p class="suave">Historia de ${esc(NOMBRE_RED[p.red] || p.red)} con esta imagen, tal cual. Sale sin pegatinas (ni enlace ni encuesta).</p></div>`
+              : `<div><p class="suave">Historia de ${esc(NOMBRE_RED[p.red] || p.red)} con la ${esc(imgP?.titulo?.toLowerCase() || 'imagen')}: misma foto y frase, con el aviso «${esc(p.aviso_historia || AVISO_HISTORIA)}». Sale sin pegatina de enlace.</p></div>`)
             : `<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><p class="texto">${esc(p.texto)}</p>${cuenta}</div>`;
           const clase = p.formato === 'historia' ? ' historia' : (vista ? '' : ' sin-imagen');
           return `<article class="ficha estado-${esc(p.estado)}" id="pub-${esc(p.id)}">
@@ -474,7 +483,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
       for (const p of Object.values(estado.pubs)) {
         if (p.imagen === id && p.estado === 'aprobado' && !bloqueada(p)) await actualizar(p.id, { estado: 'pendiente', ...camposDesaprobar() });
       }
-      out.textContent = dims[0] === 1080 && dims[1] === 1350 ? 'Subida.' : `Subida. Ojo: mide ${dims[0]} × ${dims[1]} px; la plantilla da 1080 × 1350.`;
+      const esperado = estado.imagenes[id]?.tipo === 'historia' ? [1080, 1920] : [1080, 1350];
+      out.textContent = dims[0] === esperado[0] && dims[1] === esperado[1] ? 'Subida.' : `Subida. Ojo: mide ${dims[0]} × ${dims[1]} px; la plantilla da ${esperado[0]} × ${esperado[1]}.`;
     } catch (e) {
       out.textContent = e?.code === 'too_large' ? 'La imagen pesa demasiado (máximo 20 MB).' : 'No se ha podido subir. Inténtalo otra vez.';
     }
