@@ -742,7 +742,12 @@ export async function main(argv = process.argv.slice(2)) {
     return 2;
   }
   if (modo === 'musica') {
-    const r = await musica();
+    let r;
+    try {
+      r = await musica();
+    } catch (err) {
+      r = { lineas: ['# Música para Reels', '', `❌ Error inesperado: ${limpiar(err?.stack || err?.message || err)}`], errores: 1 };
+    }
     const texto = limpiar(r.lineas.join('\n')) + '\n';
     console.log(texto);
     await writeFile('musica.md', texto);
@@ -757,7 +762,12 @@ export async function main(argv = process.argv.slice(2)) {
     return 1;
   }
 
-  const resultado = modo === 'comprobar' ? await comprobar() : modo === 'prueba' ? await prueba() : await publicar();
+  let resultado;
+  try {
+    resultado = modo === 'comprobar' ? await comprobar() : modo === 'prueba' ? await prueba() : await publicar();
+  } catch (err) {
+    resultado = { lineas: ['# Estado del publicador', '', `❌ Error inesperado (${modo}): ${limpiar(err?.stack || err?.message || err)}`], errores: 1, hechos: 0 };
+  }
   const texto = limpiar(resultado.lineas.join('\n')) + '\n';
   console.log(texto);
 
