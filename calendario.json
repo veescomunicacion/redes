@@ -54,7 +54,12 @@
     "video": "material/2026-10-halloween-reel.mp4",
     "formato": "reel",
     "tema": "Halloween: el escaparate que acaba en el móvil de la gente",
-    "objetivo": "clientes"
+    "objetivo": "clientes",
+    "instagram": {
+      "publicado": "2026-10-27T15:43:15.728Z",
+      "enlace": "https://www.instagram.com/reel/DfANI24DDGR/",
+      "id": "18206551057373448"
+    }
   },
   {
     "id": "2026-10-27-halloween-reel-facebook",
@@ -69,6 +74,11 @@
     "video": "material/2026-10-halloween-reel.mp4",
     "formato": "reel",
     "tema": "Halloween: el escaparate que acaba en el móvil de la gente",
-    "objetivo": "clientes"
+    "objetivo": "clientes",
+    "facebook": {
+      "publicado": "2026-10-27T15:43:21.843Z",
+      "enlace": "https://www.facebook.com/reel/3617748485053460/",
+      "id": "3617748485053460"
+    }
   }
 ]

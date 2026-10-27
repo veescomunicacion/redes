@@ -1,23 +1,6 @@
 # Estado del publicador
 
-Comprobación: mar, 27 oct, 16:18 (hora de Madrid)
+Última publicación: mar, 27 oct, 16:42 (hora de Madrid)
 
-## Meta (Instagram y Facebook)
-
-- ✅ Página de Facebook: **Vees Comunicación**
-- ✅ Instagram: **@veescomunicacion**
-- ✅ Puede leer las publicaciones de la página.
-- ✅ Puede leer Instagram (156 publicaciones, 304 seguidores).
-
-## Buffer (LinkedIn y X)
-
-- ✅ La clave funciona. Organización: **My organization**
-- Canal: twitter — VeesComunicacio
-- Canal: linkedin — vees-comunicacion
-- ✅ LinkedIn conectado
-- ✅ X conectado
-
-## Calendario
-
-- 2 publicaciones (2 aprobadas, 0 sin aprobar).
-
+- ✅ 2026-10-27-halloween-reel-instagram · Instagram: publicado https://www.instagram.com/reel/DfANI24DDGR/
+- ✅ 2026-10-27-halloween-reel-facebook · Facebook: publicado https://www.facebook.com/reel/3617748485053460/
