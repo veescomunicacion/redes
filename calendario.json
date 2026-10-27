@@ -147,6 +147,13 @@
     "formato": "foto",
     "tema": "Halloween: el escaparate que acaba en el móvil de la gente",
     "objetivo": "alcance y marca",
-    "alt": "Escaparate de una tienda de dulces decorado para Halloween, con el cartel «Especial Halloween» y una mujer haciéndole una foto con el móvil."
+    "alt": "Escaparate de una tienda de dulces decorado para Halloween, con el cartel «Especial Halloween» y una mujer haciéndole una foto con el móvil.",
+    "_fotos_meta": {
+      "material/2026-10-halloween-linkedin.jpg": "1750503103745946"
+    },
+    "linkedin": {
+      "programado": "2026-10-27T18:22:26.786Z",
+      "buffer_id": "6ae0eaba51de1fce7dced1a7"
+    }
   }
 ]
