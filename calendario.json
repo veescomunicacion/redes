@@ -89,7 +89,7 @@
     "redes": [
       "instagram"
     ],
-    "aprobado": true,
+    "aprobado": false,
     "aprobado_en": "2026-10-27T15:52:33.259Z",
     "origen": "chat (aprobado por Julia)",
     "formato": "reel",
@@ -107,6 +107,7 @@
       "intentos": 2,
       "primer_intento": "2026-10-27T15:53:22.514Z",
       "ultimo_intento": "2026-10-27T15:54:35.227Z"
-    }
+    },
+    "nota": "En pausa mientras se averigua el error 2207076."
   }
 ]

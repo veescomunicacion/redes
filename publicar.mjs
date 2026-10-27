@@ -759,6 +759,58 @@ async function musica() {
   return { lineas: l, errores: 0 };
 }
 
+// ---------------------------------------------------------------- diagnóstico de Reels (no publica nada)
+
+// Prepara el Reel de varias formas, espera a que Instagram lo procese y dice cuál acepta.
+// Los contenedores no se publican nunca: caducan solos a las 24 horas.
+async function diagnosticoReel() {
+  const l = ['# Diagnóstico de Reel (no se publica nada)', '', `Prueba: ${horaMadrid(Date.now())} (hora de Madrid)`, ''];
+  const e = [...cal].reverse().find((x) => x.video && x.audio_id);
+  if (!e) return { lineas: [...l, 'No hay ningún Reel con música en el calendario.'], errores: 1 };
+  l.push(`Entrada: ${e.id} · vídeo ${e.video} · audio ${e.audio_id}`, '');
+  const { ig } = await idsMeta();
+
+  try {
+    const a = await graph('GET', `/${e.audio_id}`, { user_id: ig });
+    l.push(`- Canción: ✅ ${a.title || '?'} · ${a.display_artist || '?'} · ${Math.round((a.duration_in_ms || 0) / 1000)} s`);
+  } catch (err) {
+    l.push(`- Canción: ❌ ${limpiar(err.message)}`);
+  }
+
+  let url = null;
+  try {
+    url = await videoPublico(e, e.video);
+    l.push('- Enlace del vídeo (Facebook sin publicar): ✅');
+  } catch (err) {
+    l.push(`- Enlace del vídeo: ❌ ${limpiar(err.message)}`);
+  }
+
+  const conMusica = { audio_configuration: JSON.stringify({ audio_id: String(e.audio_id), audio_volume: 100, video_volume: 1 }) };
+  const soloId = { audio_configuration: JSON.stringify({ audio_id: String(e.audio_id) }) };
+  const variantes = [];
+  if (url) {
+    variantes.push(['Enlace, sin música', { video_url: url }]);
+    variantes.push(['Enlace, con música (volúmenes)', { video_url: url, ...conMusica }]);
+    variantes.push(['Enlace, con música (solo la canción)', { video_url: url, ...soloId }]);
+  }
+  for (const [nombre, extra] of variantes) {
+    try {
+      const c = (await graph('POST', `/${ig}/media`, { media_type: 'REELS', share_to_feed: 'false', ...extra })).id;
+      let r = {};
+      const fin = Date.now() + 4 * 60_000;
+      do {
+        await esperar(10_000);
+        r = await graph('GET', `/${c}`, { fields: 'status_code,status' });
+      } while (!['FINISHED', 'ERROR', 'EXPIRED'].includes(r.status_code) && Date.now() < fin);
+      l.push(`- ${nombre}: ${r.status_code === 'FINISHED' ? '✅' : '❌'} ${r.status_code || '?'} ${r.status ? `(${limpiar(r.status)})` : ''}`);
+    } catch (err) {
+      l.push(`- ${nombre}: ❌ ${limpiar(err.message)}`);
+    }
+  }
+  await guardar();
+  return { lineas: l, errores: 0 };
+}
+
 // ---------------------------------------------------------------- principal
 
 export async function main(argv = process.argv.slice(2)) {
@@ -768,8 +820,8 @@ export async function main(argv = process.argv.slice(2)) {
   canalesCache = null;
 
   const modo = (argv[0] || 'prueba').toLowerCase();
-  if (!['comprobar', 'prueba', 'publicar', 'musica'].includes(modo)) {
-    console.error('Uso: node publicar.mjs comprobar | prueba | publicar | musica');
+  if (!['comprobar', 'prueba', 'publicar', 'musica', 'diagnostico'].includes(modo)) {
+    console.error('Uso: node publicar.mjs comprobar | prueba | publicar | musica | diagnostico');
     return 2;
   }
   if (modo === 'musica') {
@@ -795,7 +847,8 @@ export async function main(argv = process.argv.slice(2)) {
 
   let resultado;
   try {
-    resultado = modo === 'comprobar' ? await comprobar() : modo === 'prueba' ? await prueba() : await publicar();
+    resultado =
+      modo === 'comprobar' ? await comprobar() : modo === 'prueba' ? await prueba() : modo === 'diagnostico' ? await diagnosticoReel() : await publicar();
   } catch (err) {
     resultado = { lineas: ['# Estado del publicador', '', `❌ Error inesperado (${modo}): ${limpiar(err?.stack || err?.message || err)}`], errores: 1, hechos: 0 };
   }

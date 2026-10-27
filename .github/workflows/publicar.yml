@@ -20,7 +20,7 @@ on:
       accion:
         description: "Qué hacer"
         type: choice
-        options: [publicar, comprobar, prueba, musica]
+        options: [publicar, comprobar, prueba, musica, diagnostico]
         default: publicar
   push:
     branches: [main]
