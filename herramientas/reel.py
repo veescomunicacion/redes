@@ -56,7 +56,9 @@ def main():
         # Reel del tamaño de un post (1080 × 1350) con las imágenes de la plantilla tal cual,
         # sin zoom: tiene que verse exactamente igual que un post normal.
         H, CENTRO_Y, ZOOM_FINAL, completa = 1350, 675, 1.0, True
-    args = [a for a in args if a not in ('--completa', '--post')]
+    if '--sin-zoom' in args:
+        ZOOM_FINAL = 1.0
+    args = [a for a in args if a not in ('--completa', '--post', '--sin-zoom')]
     audio = None
     if '--audio' in args:
         i = args.index('--audio')
