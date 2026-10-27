@@ -250,6 +250,30 @@ async function urlPublica(e, ruta) {
   return mayor.source;
 }
 
+// Sube el vídeo a la página de Facebook SIN publicarlo y devuelve su enlace (para Instagram).
+async function videoPublico(e, ruta) {
+  e._videos_meta ??= {};
+  const { pagina } = await idsMeta();
+  let id = e._videos_meta[ruta];
+  if (!id) {
+    const form = new FormData();
+    form.set('published', 'false');
+    form.set('source', await openAsBlob(ruta, { type: tipoArchivo(ruta) }), basename(ruta));
+    id = (await graph('POST', `/${pagina}/videos`, {}, { base: GRAPH_VIDEO, form })).id;
+    e._videos_meta[ruta] = id;
+    await guardar();
+  }
+  const fin = Date.now() + 10 * 60_000;
+  for (;;) {
+    const v = await graph('GET', `/${id}`, { fields: 'source,status' });
+    const listo = v.status?.video_status === 'ready' || v.status?.processing_progress === 100;
+    if (v.source && listo) return v.source;
+    if (v.status?.video_status === 'error') throw new ErrorRed('Facebook no pudo procesar el vídeo.');
+    if (Date.now() > fin) throw new ErrorRed('Facebook tardó demasiado en procesar el vídeo.');
+    await esperar(10_000);
+  }
+}
+
 async function esperarContenedor(id, maxMs, cadaMs) {
   const fin = Date.now() + maxMs;
   for (;;) {
@@ -299,8 +323,11 @@ async function publicarInstagram(e) {
     const ruta = e.video;
     // Música de la biblioteca de Instagram (audio_id de musica.md)
     const extra = e.audio_id ? { audio_configuration: JSON.stringify({ audio_id: String(e.audio_id), audio_volume: 100, video_volume: 1 }) } : {};
-    if (esUrl(ruta)) {
-      contenedor = (await graph('POST', `/${ig}/media`, { media_type: 'REELS', video_url: ruta, caption, share_to_feed: 'true', ...extra })).id;
+    if (esUrl(ruta) || e.audio_id) {
+      // Con música, Instagram recoge el vídeo desde un enlace (la vía que documenta su Audio API).
+      // Si el vídeo es un archivo, se sube antes a la página de Facebook sin publicar para tener ese enlace.
+      const video_url = esUrl(ruta) ? ruta : await videoPublico(e, ruta);
+      contenedor = (await graph('POST', `/${ig}/media`, { media_type: 'REELS', video_url, caption, share_to_feed: 'true', ...extra })).id;
     } else {
       // Subida directa del vídeo (sin enlace público)
       const r = await graph('POST', `/${ig}/media`, { media_type: 'REELS', upload_type: 'resumable', caption, share_to_feed: 'true', ...extra });
