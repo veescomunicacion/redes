@@ -1,6 +1,8 @@
 """Monta un Reel vertical (1080 × 1920, MP4 H.264) a partir de varias imágenes de la plantilla.
 
-Uso: python3 herramientas/reel.py SALIDA.mp4 SEGUNDOS IMAGEN1.jpg IMAGEN2.jpg [...] [--audio AUDIO] [--sin-audio]
+Uso: python3 herramientas/reel.py SALIDA.mp4 SEGUNDOS IMAGEN1.jpg IMAGEN2.jpg [...] [--completa] [--audio AUDIO]
+
+--completa: las imágenes ya están montadas a pantalla completa con herramientas/pantalla.py.
 
 - Acepta imágenes de historia (1080 × 1920) o de post (1080 × 1350).
 - Reduce el contenido para que quede dentro de la zona segura de los Reels: arriba Instagram pone
@@ -21,8 +23,11 @@ ZOOM_FINAL = 1.05      # zoom al final del vídeo
 FUNDIDO = 0.8          # segundos de fundido entre imágenes
 
 
-def lienzo(ruta):
+def lienzo(ruta, completa=False):
     im = Image.open(ruta).convert('RGB')
+    if completa:
+        # Imagen ya montada a pantalla completa (herramientas/pantalla.py): se usa tal cual
+        return im.resize((W, H), Image.LANCZOS) if im.size != (W, H) else im
     if im.size == (1080, 1920):
         # Historia: el contenido útil va del marco superior al inferior
         im = im.crop((0, 240, 1080, 1700))
@@ -44,6 +49,8 @@ def con_zoom(img, z):
 
 def main():
     args = sys.argv[1:]
+    completa = '--completa' in args
+    args = [a for a in args if a != '--completa']
     audio = None
     if '--audio' in args:
         i = args.index('--audio')
@@ -57,7 +64,7 @@ def main():
     fundido = round(FUNDIDO * FPS)
     # Duración de cada tramo contando los solapes de los fundidos
     tramo = (total + fundido * (n - 1)) / n
-    lienzos = [lienzo(r) for r in imagenes]
+    lienzos = [lienzo(r, completa) for r in imagenes]
     inicios = [round(k * (tramo - fundido)) for k in range(n)]
 
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-']
