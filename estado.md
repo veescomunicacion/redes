@@ -1,23 +1,11 @@
-# Estado del publicador
+# Diagnóstico de Reel (no se publica nada)
 
-Comprobación: mar, 27 oct, 16:56 (hora de Madrid)
+Prueba: mar, 27 oct, 16:56 (hora de Madrid)
 
-## Meta (Instagram y Facebook)
+Entrada: 2026-10-27-halloween-reel-instagram-2 · vídeo material/2026-10-halloween-reel-20s.mp4 · audio 566189489083747
 
-- ✅ Página de Facebook: **Vees Comunicación**
-- ✅ Instagram: **@veescomunicacion**
-- ✅ Puede leer las publicaciones de la página.
-- ✅ Puede leer Instagram (156 publicaciones, 304 seguidores).
-
-## Buffer (LinkedIn y X)
-
-- ✅ La clave funciona. Organización: **My organization**
-- Canal: twitter — VeesComunicacio
-- Canal: linkedin — vees-comunicacion
-- ✅ LinkedIn conectado
-- ✅ X conectado
-
-## Calendario
-
-- 5 publicaciones (4 aprobadas, 1 sin aprobar).
-
+- Canción: ✅ Halloween Nightmare · Global Genius · 150 s
+- Enlace del vídeo (Facebook sin publicar): ✅
+- Enlace, sin música: ❌ ERROR (Error: Media upload has failed with error code 2207076)
+- Enlace, con música (volúmenes): ❌ ERROR (Error: Media upload has failed with error code 2207076)
+- Enlace, con música (solo la canción): ❌ ERROR (Error: Media upload has failed with error code 2207076)
