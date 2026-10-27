@@ -59,7 +59,8 @@
       "publicado": "2026-10-27T15:43:15.728Z",
       "enlace": "https://www.instagram.com/reel/DfANI24DDGR/",
       "id": "18206551057373448"
-    }
+    },
+    "nota": "Borrado a mano por Julia: salió sin música."
   },
   {
     "id": "2026-10-27-halloween-reel-facebook",
@@ -79,6 +80,24 @@
       "publicado": "2026-10-27T15:43:21.843Z",
       "enlace": "https://www.facebook.com/reel/3617748485053460/",
       "id": "3617748485053460"
-    }
+    },
+    "nota": "Borrado a mano por Julia: no se quería en Facebook sin música."
+  },
+  {
+    "id": "2026-10-27-halloween-reel-instagram-2",
+    "cuando": "2026-10-27T15:51:33.258Z",
+    "redes": [
+      "instagram"
+    ],
+    "aprobado": true,
+    "aprobado_en": "2026-10-27T15:52:33.259Z",
+    "origen": "chat (aprobado por Julia)",
+    "formato": "reel",
+    "video": "material/2026-10-halloween-reel-20s.mp4",
+    "audio_id": "566189489083747",
+    "musica": "Halloween Nightmare (Global Genius)",
+    "texto": "El escaparate de Halloween que funciona no es el que da más miedo, es el que acaba en el móvil de la gente 📸\n\nCuando un cliente sube una foto de tu escaparate, está enseñando tu tienda a todos sus seguidores.\n\nTres cosas sencillas que sirven para cualquier campaña:\n\n🎃 Da un solo mensaje. Si el escaparate anuncia Halloween, el descuento y la colección nueva a la vez, el cliente pasa de largo y no recuerda ninguno de los tres. Elige el mensaje más importante y repítelo en todos los carteles.\n\n🦇 No te quedes en el escaparate. Mucha gente decora el cristal y, cuando el cliente entra, dentro no hay nada. Lleva la misma decoración y el mismo mensaje a las estanterías y al mostrador.\n\n👻 Pónselo fácil: Prepara un sitio bonito para hacerse la foto. Si montas bien una esquina, tus clientes la fotografían y la suben a sus redes, y eso es publicidad gratuita.\n\nY lo mejor: no es cuestión de gastar más. Un cartel mal pensado cuesta lo mismo que uno bien pensado, pero no vende igual. Decide qué vas a decir y dónde va cada cartel antes de mandarlos a imprimir. El mismo presupuesto, mejor aprovechado.\n\n¿Preparamos tu escaparate de Halloween? Escríbenos por DM o entra desde el enlace de la bio a contacto 💬\n\n#Halloween #Escaparatismo #PuntoDeVenta #MarketingEnTienda #EquipoVees",
+    "tema": "Halloween: el escaparate que acaba en el móvil de la gente",
+    "objetivo": "clientes"
   }
 ]
