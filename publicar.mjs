@@ -297,11 +297,13 @@ async function publicarInstagram(e) {
     await esperarContenedor(contenedor, 2 * 60_000, 5_000);
   } else if (tipo === 'video') {
     const ruta = e.video;
+    // Música de la biblioteca de Instagram (audio_id de musica.md)
+    const extra = e.audio_id ? { audio_configuration: JSON.stringify({ audio_id: String(e.audio_id), audio_volume: 100, video_volume: 1 }) } : {};
     if (esUrl(ruta)) {
-      contenedor = (await graph('POST', `/${ig}/media`, { media_type: 'REELS', video_url: ruta, caption, share_to_feed: 'true' })).id;
+      contenedor = (await graph('POST', `/${ig}/media`, { media_type: 'REELS', video_url: ruta, caption, share_to_feed: 'true', ...extra })).id;
     } else {
       // Subida directa del vídeo (sin enlace público)
-      const r = await graph('POST', `/${ig}/media`, { media_type: 'REELS', upload_type: 'resumable', caption, share_to_feed: 'true' });
+      const r = await graph('POST', `/${ig}/media`, { media_type: 'REELS', upload_type: 'resumable', caption, share_to_feed: 'true', ...extra });
       contenedor = r.id;
       const datos = await readFile(ruta);
       let res;
@@ -666,6 +668,66 @@ async function publicar() {
   return { lineas: l, errores, hechos };
 }
 
+// ---------------------------------------------------------------- música para Reels (biblioteca de Instagram)
+
+// Busca canciones con las consultas de peticiones/musica.txt (una por línea), escribe musica.md y
+// guarda en musica/previa/ los primeros segundos de cada una, solo para escucharlas antes de elegir.
+async function musica() {
+  const l = ['# Música para Reels', '', `Búsqueda: ${horaMadrid(Date.now())} (hora de Madrid)`, ''];
+  if (!META_TOKEN) return { lineas: [...l, '❌ Falta la clave de Meta.'], errores: 1 };
+  let consultas = ['halloween'];
+  try {
+    consultas = (await readFile('peticiones/musica.txt', 'utf8')).split('\n').map((s) => s.trim()).filter((s) => s && !s.startsWith('#'));
+  } catch {}
+  let segundos = 15;
+  const m = consultas.find((c) => /^segundos\s*=/.test(c));
+  if (m) { segundos = Number(m.split('=')[1]) || 15; consultas = consultas.filter((c) => c !== m); }
+
+  const { ig } = await idsMeta();
+  const vistas = new Map();
+  for (const q of consultas) {
+    try {
+      const r = await graph('GET', '/ig_audio', { audio_type: 'music', user_id: ig, search_query: q });
+      for (const a of r.audio || r.data || []) if (a.audio_id && !vistas.has(a.audio_id)) vistas.set(a.audio_id, { ...a, consulta: q });
+      l.push(`- «${q}»: ${(r.audio || r.data || []).length} resultados`);
+    } catch (err) {
+      l.push(`- «${q}»: ❌ ${limpiar(err.message)}`);
+    }
+  }
+  l.push('');
+  const lista = [...vistas.values()].filter((a) => !a.duration_in_ms || a.duration_in_ms >= segundos * 1000);
+  if (!lista.length) return { lineas: [...l, 'No ha salido ninguna canción.'], errores: 1 };
+
+  const { mkdir, rm } = await import('node:fs/promises');
+  const { execFileSync } = await import('node:child_process');
+  await rm('musica/previa', { recursive: true, force: true });
+  await mkdir('musica/previa', { recursive: true });
+  l.push('| # | Canción | Artista | Duración | id | Escuchar en Instagram | Previa |', '|---|---|---|---|---|---|---|');
+  let n = 0;
+  for (const a of lista.slice(0, 12)) {
+    n++;
+    let previa = '';
+    if (a.download_url && n <= 8) {
+      try {
+        const res = await fetch(a.download_url);
+        if (res.ok) {
+          const tmp = `musica/previa/${a.audio_id}.orig`;
+          await writeFile(tmp, Buffer.from(await res.arrayBuffer()));
+          execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', tmp, '-t', String(segundos), '-vn', '-c:a', 'aac', '-b:a', '128k', `musica/previa/${a.audio_id}.m4a`]);
+          await rm(tmp, { force: true });
+          previa = `musica/previa/${a.audio_id}.m4a`;
+        }
+      } catch (err) {
+        previa = `❌ ${limpiar(err.message).slice(0, 60)}`;
+      }
+    }
+    const dur = a.duration_in_ms ? `${Math.round(a.duration_in_ms / 1000)} s` : '?';
+    const celda = (s) => String(s ?? '').replace(/\|/g, '/');
+    l.push(`| ${n} | ${celda(a.title)} | ${celda(a.display_artist || a.ig_username)} | ${dur} | ${a.audio_id} | ${a.on_platform_audio_preview_link || ''} | ${previa} |`);
+  }
+  return { lineas: l, errores: 0 };
+}
+
 // ---------------------------------------------------------------- principal
 
 export async function main(argv = process.argv.slice(2)) {
@@ -675,9 +737,16 @@ export async function main(argv = process.argv.slice(2)) {
   canalesCache = null;
 
   const modo = (argv[0] || 'prueba').toLowerCase();
-  if (!['comprobar', 'prueba', 'publicar'].includes(modo)) {
-    console.error('Uso: node publicar.mjs comprobar | prueba | publicar');
+  if (!['comprobar', 'prueba', 'publicar', 'musica'].includes(modo)) {
+    console.error('Uso: node publicar.mjs comprobar | prueba | publicar | musica');
     return 2;
+  }
+  if (modo === 'musica') {
+    const r = await musica();
+    const texto = limpiar(r.lineas.join('\n')) + '\n';
+    console.log(texto);
+    await writeFile('musica.md', texto);
+    return r.errores ? 1 : 0;
   }
 
   try {

@@ -4,6 +4,7 @@ name: Publicar redes
 #  - A mano: Actions → Publicar redes → Run workflow (eligiendo publicar, comprobar o prueba).
 #  - Cuando cambia calendario.json → publicar.
 #  - Cuando cambia el publicador → comprobar.
+#  - Cuando cambia peticiones/musica.txt → buscar música para Reels (escribe musica.md).
 #  - Horas fijas (schedule, en hora UTC; Madrid es UTC+1 en invierno y UTC+2 en verano):
 #      de lunes a viernes, cada 15 minutos de 7:07 a 20:52 UTC (8:07-21:52 en invierno, 9:07-22:52 en verano);
 #      sábados y domingos, una vez por hora.
@@ -19,13 +20,14 @@ on:
       accion:
         description: "Qué hacer"
         type: choice
-        options: [publicar, comprobar, prueba]
+        options: [publicar, comprobar, prueba, musica]
         default: publicar
   push:
     branches: [main]
     paths:
       - calendario.json
       - publicar.mjs
+      - peticiones/**
       - .github/workflows/publicar.yml
 
 permissions:
@@ -60,7 +62,9 @@ jobs:
             ACCION="$ACCION_MANUAL"
           elif [ "$EVENTO" = "push" ]; then
             CAMBIOS="$(git diff --name-only "$ANTES" HEAD 2>/dev/null || echo publicar.mjs)"
-            if echo "$CAMBIOS" | grep -qE '^(publicar\.mjs|\.github/)'; then
+            if echo "$CAMBIOS" | grep -qE '^peticiones/musica\.txt$'; then
+              ACCION=musica
+            elif echo "$CAMBIOS" | grep -qE '^(publicar\.mjs|\.github/)'; then
               ACCION=comprobar
             fi
           fi
@@ -81,8 +85,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for f in calendario.json estado.md; do
-            if [ -f "$f" ]; then git add "$f"; fi
+          for f in calendario.json estado.md musica.md musica; do
+            if [ -e "$f" ]; then git add -A "$f"; fi
           done
           if git diff --cached --quiet; then
             echo "Nada que guardar"

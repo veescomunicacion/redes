@@ -1,0 +1,7 @@
+# Búsquedas de música para el Reel (una por línea). Al subir este archivo, el publicador busca
+# en la biblioteca de Instagram y deja el resultado en musica.md.
+segundos = 15
+halloween
+spooky
+halloween party
+trick or treat
