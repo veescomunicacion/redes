@@ -233,5 +233,21 @@
       "enlace": "https://www.instagram.com/p/Df1-XjAjS7U/",
       "id": "18133698649699977"
     }
+  },
+  {
+    "id": "2026-11-17-ambisalud-v2-facebook",
+    "cuando": "2026-11-17T12:52:07.793Z",
+    "redes": [
+      "facebook"
+    ],
+    "aprobado": true,
+    "aprobado_en": "2026-11-17T12:53:07.793Z",
+    "origen": "chat (Julia: «ok facebook», versión 2 con la foto nueva)",
+    "formato": "foto",
+    "imagen": "material/2026-11-ambisalud-v2-post.jpg",
+    "texto_facebook": "🥂 Hay eventos que se disfrutan incluso antes de que empiecen.\n\nEsta mañana hemos estado ultimando los detalles junto a nuestro amigo @LuisBoyano, que será el maestro de ceremonias en una celebración muy especial: el 20º aniversario de Ambisalud.\n\nVeinte años de trabajo, compromiso y confianza merecen una reunión a la altura, rodeados de clientes, colaboradores y amigos que han formado parte de esta historia.\n\nEs un orgullo para Vees acompañar a Ambisalud y Grupo Aire Limpio en un día tan importante.\n\n¡Ahora toca celebrar! ✨\n\n#Ambisalud #GrupoAireLimpio #20Aniversario #EquipoVees #LuisBoyano #Eventos #Celebración #Networking #EventosCorporativos",
+    "tema": "Ambisalud 20º aniversario: últimos ensayos con Luis Boyano",
+    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud.",
+    "nota": "Sustituye a 2026-11-17-ambisalud-instagram-facebook (Facebook), que Julia borró a mano por la foto."
   }
 ]
