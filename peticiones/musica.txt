@@ -1,13 +1,13 @@
-# Búsquedas de música para el Reel (una por línea). Al subir este archivo, el publicador busca
-# en la biblioteca de Instagram y deja el resultado en musica.md.
+# Búsquedas de música para Reels y posts con música (una por línea). Al subir este archivo, el publicador
+# busca en la biblioteca de Instagram y deja el resultado en musica.md.
+# «claves =» pone primero las canciones cuyo título lleva alguna de esas palabras.
 segundos = 15
-halloween
-spooky halloween
-horror
-creepy
-haunted house
-witch
-ghost
-scary
-suspense
-monster
+claves = christmas|xmas|navidad|holiday|jingle|santa|merry|winter|snow|party|fiesta|celebrat|festiv
+christmas party
+christmas pop
+holiday party
+jingle bell
+merry christmas
+fiesta navidad
+navidad
+celebration

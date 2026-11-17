@@ -709,6 +709,10 @@ async function musica() {
   let segundos = 15;
   const m = consultas.find((c) => /^segundos\s*=/.test(c));
   if (m) { segundos = Number(m.split('=')[1]) || 15; consultas = consultas.filter((c) => c !== m); }
+  // «claves = a|b|c»: palabras que, si salen en el título, ponen la canción la primera (por defecto, Halloween)
+  const k = consultas.find((c) => /^claves\s*=/.test(c));
+  let clavesUsuario = null;
+  if (k) { clavesUsuario = k.split('=').slice(1).join('=').trim(); consultas = consultas.filter((c) => c !== k); }
 
   const { ig } = await idsMeta();
   const vistas = new Map();
@@ -722,8 +726,8 @@ async function musica() {
     }
   }
   l.push('');
-  // Primero las que por el título suenan más a Halloween
-  const CLAVES = /hallow|spook|horror|creep|scar|ghost|ghoul|witch|haunt|monster|zombie|vampir|skelet|pumpkin|trick|treat|terror|miedo|fantasm|bruj|dark|night|myster|thrill|suspens|macabr|eerie|grave|tomb|curse|spider|bat|boo/i;
+  // Primero las que por el título encajan con el tema (claves de musica.txt; si no hay, Halloween)
+  const CLAVES = clavesUsuario ? new RegExp(clavesUsuario, 'i') : /hallow|spook|horror|creep|scar|ghost|ghoul|witch|haunt|monster|zombie|vampir|skelet|pumpkin|trick|treat|terror|miedo|fantasm|bruj|dark|night|myster|thrill|suspens|macabr|eerie|grave|tomb|curse|spider|bat|boo/i;
   const puntos = (a) => (CLAVES.test(`${a.title} ${a.display_artist}`) ? 1 : 0);
   const lista = [...vistas.values()]
     .filter((a) => !a.duration_in_ms || a.duration_in_ms >= segundos * 1000)
