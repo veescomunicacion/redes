@@ -1,41 +1,39 @@
 # Música para Reels
 
-Búsqueda: mar, 27 oct, 16:27 (hora de Madrid)
+Búsqueda: mar, 17 nov, 10:59 (hora de Madrid)
 
-- «halloween»: 22 resultados
-- «spooky halloween»: 10 resultados
-- «horror»: 13 resultados
-- «creepy»: 10 resultados
-- «haunted house»: 7 resultados
-- «witch»: 12 resultados
-- «ghost»: 25 resultados
-- «scary»: 19 resultados
-- «suspense»: 11 resultados
-- «monster»: 16 resultados
+- «christmas party»: 10 resultados
+- «christmas pop»: 10 resultados
+- «holiday party»: 10 resultados
+- «jingle bell»: 10 resultados
+- «merry christmas»: 10 resultados
+- «fiesta navidad»: 10 resultados
+- «navidad»: 25 resultados
+- «celebration»: 16 resultados
 
 | # | Canción | Artista | Duración | Búsqueda | id | Escuchar en Instagram | Previa |
 |---|---|---|---|---|---|---|---|
-| 1 | Halloween Waltz | Moon blues | 68 s | halloween | 434453355437555 | https://www.instagram.com/reels/audio/434453355437555/ |  |
-| 2 | Halloween Cute Horror Song | Ks. Piotr Pawlukiewicz | 133 s | halloween | 1051746339431531 | https://www.instagram.com/reels/audio/1051746339431531/ |  |
-| 3 | Dark (Slowed) | Tony Dark Eyes | 181 s | halloween | 2603949126473975 |  | musica/previa/2603949126473975.orig |
-| 4 | Murder Mystery | Sam Marshall | 189 s | halloween | 1822151564904328 |  | musica/previa/1822151564904328.orig |
-| 5 | Halloween | Company Money | 18 s | halloween | 2293371714495205 |  | musica/previa/2293371714495205.orig |
-| 6 | Halloween | Summer Islands | 72 s | halloween | 1711247370148543 |  | musica/previa/1711247370148543.orig |
-| 7 | Halloween Hijinks (feat. Rizzi) | Global Genius | 164 s | halloween | 328288862402472 |  | musica/previa/328288862402472.orig |
-| 8 | Halloween Scene (Instrumental) | Neko Fuzz | 180 s | halloween | 1550173042257764 |  | musica/previa/1550173042257764.orig |
-| 9 | Halloween Waltz | Giulio Cercato | 137 s | halloween | 662512635980027 |  | musica/previa/662512635980027.orig |
-| 10 | Halloween Nightmare | Global Genius | 150 s | halloween | 566189489083747 |  | musica/previa/566189489083747.orig |
-| 11 | Halloween Is Here | Giulio Cercato | 151 s | halloween | 2065347553676007 |  | musica/previa/2065347553676007.orig |
-| 12 | Halloween Scene (feat. Sharkie J) | Neko Fuzz | 180 s | halloween | 540299401885781 |  | musica/previa/540299401885781.orig |
-| 13 | Halloween Night | Mike Block | 151 s | halloween | 592103269608712 |  | musica/previa/592103269608712.orig |
-| 14 | Halloween 1985 | Sam Marshall | 193 s | halloween | 1434346691125157 |  | musica/previa/1434346691125157.orig |
-| 15 | Ghouls Night Out | Ethan Schreiber | 68 s | spooky halloween | 145543906097356 |  |  |
-| 16 | Haunted Funhouse | Global Genius | 143 s | spooky halloween | 313787387924301 |  |  |
-| 17 | Skeleton Swing | Giulio Cercato | 154 s | spooky halloween | 1141060070151227 |  |  |
-| 18 | Horror Strings | Sam Marshall | 190 s | horror | 1294217722175214 |  |  |
-| 19 | Horror In Eb | Brent Bourgeois | 165 s | horror | 670035671430136 |  |  |
-| 20 | Spooky Season (Reels Sound - Reveal) | Ethan Schreiber | 28 s | creepy | 795786439579832 |  |  |
-| 21 | Scary Horror | Scott Dugdale | 58 s | creepy | 301217220399014 |  |  |
-| 22 | Ghosts Just Wanna Have Fun (Reels Sound - Lip Sync) | Global Genius | 45 s | creepy | 2041515699918301 |  |  |
-| 23 | The Haunted Hour | Giulio Cercato | 113 s | creepy | 159368360573144 |  |  |
-| 24 | Haunted House | Mike Block | 152 s | haunted house | 327974083244775 |  |  |
+| 1 | Jingle Bass | Chela Rivas | 136 s | christmas party | 1077180373816205 |  | musica/previa/1077180373816205.orig |
+| 2 | First Snow | Giulio Cercato | 131 s | holiday party | 1637199290067753 |  | musica/previa/1637199290067753.orig |
+| 3 | Holiday Bells | Scott Dugdale | 109 s | jingle bell | 193842924859531 |  | musica/previa/193842924859531.orig |
+| 4 | Season Of Merry | Global Genius | 157 s | jingle bell | 702648238467707 |  | musica/previa/702648238467707.orig |
+| 5 | Jingle Bells | Brent Bourgeois | 62 s | jingle bell | 1872656819429080 |  | musica/previa/1872656819429080.orig |
+| 6 | Christmas Piano | Ella Joy Meir | 123 s | jingle bell | 557830636154312 |  | musica/previa/557830636154312.orig |
+| 7 | Christmas Morning | Daria Novo | 137 s | jingle bell | 1502425377134265 |  | musica/previa/1502425377134265.orig |
+| 8 | We Wish You A Merry Christmas (Bass Boosted) | Giulio Cercato | 124 s | jingle bell | 1097808322023192 |  | musica/previa/1097808322023192.orig |
+| 9 | Winter | Giulio Cercato | 130 s | merry christmas | 1183861130553498 |  | musica/previa/1183861130553498.orig |
+| 10 | Christmas Joy Joy Joy | Global Genius | 139 s | navidad | 538660632363708 |  | musica/previa/538660632363708.orig |
+| 11 | Christmas Time In Union Square | Scott Dugdale | 205 s | navidad | 1207617639732919 |  | musica/previa/1207617639732919.orig |
+| 12 | Christmastime In The City (feat. Sharkie J) | Neko Fuzz | 182 s | navidad | 1141888927293516 |  | musica/previa/1141888927293516.orig |
+| 13 | Christmas Miracle | Giulio Cercato | 27 s | navidad | 2258842822174278 |  |  |
+| 14 | Christmas Medley (Reels Sound - Listicle) | Ecklectic Music | 32 s | navidad | 1563654357995417 |  |  |
+| 15 | Christmas Morning | Sam Marshall | 191 s | navidad | 1117838919750977 |  |  |
+| 16 | Christmas In November (Reels Sound - Listicle) | GEEZ | 24 s | navidad | 1995949041161208 |  |  |
+| 17 | Christmas Is Finally Here | Dawn Beyer | 184 s | navidad | 399859115169325 |  |  |
+| 18 | Christmas Is Already Here (feat. Nigel Hall) | TrackTribe | 234 s | navidad | 1069281458276771 |  |  |
+| 19 | Christmas | Deuxhyun | 194 s | navidad | 1889629138042637 |  |  |
+| 20 | Christmas | Jonny Houlihan | 228 s | navidad | 2500408860199222 |  |  |
+| 21 | Christmas Kiss | JoAnna Janét | 206 s | navidad | 603424807682677 |  |  |
+| 22 | Christmas With You (prod. by Jonny Houlihan) | Chris Burke | 228 s | navidad | 687495032775293 |  |  |
+| 23 | Celebration | Lauren Evans | 183 s | celebration | 410460866361569 |  |  |
+| 24 | Celebration | Moira Smiley | 193 s | celebration | 713115942585899 |  |  |
