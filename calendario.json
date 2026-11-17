@@ -155,5 +155,39 @@
       "programado": "2026-10-27T18:22:26.786Z",
       "buffer_id": "6ae0eaba51de1fce7dced1a7"
     }
+  },
+  {
+    "id": "2026-11-17-ambisalud-instagram-facebook",
+    "redes": [
+      "instagram",
+      "facebook"
+    ],
+    "imagen": "material/2026-11-ambisalud-post.jpg",
+    "texto": "🎤 Últimos ensayos con nuestro amigo Luis Boyano antes de comenzar una celebración muy especial.\n\nHoy acompañamos a Ambisalud en su 20º aniversario, una ocasión para reunir a clientes, colaboradores y amigos que han formado parte de estos años de crecimiento y confianza.\n\nOrgullosos de compartir este momento junto a Grupo Aire Limpio.\n\n🥂 ¡Que empiece la celebración!\n\n#Ambisalud #GrupoAireLimpio #20Aniversario #EventosCorporativos #EquipoVees",
+    "texto_facebook": "🥂 Hay eventos que se disfrutan incluso antes de que empiecen.\n\nEsta mañana hemos estado ultimando los detalles junto a nuestro amigo Luis Boyano, que será el maestro de ceremonias en una celebración muy especial: el 20º aniversario de Ambisalud.\n\nVeinte años de trabajo, compromiso y confianza merecen una reunión a la altura, rodeados de clientes, colaboradores y amigos que han formado parte de esta historia.\n\nEs un orgullo para Vees acompañar a Ambisalud y Grupo Aire Limpio en un día tan importante.\n\n¡Ahora toca celebrar! ✨\n\n#Ambisalud #GrupoAireLimpio #20Aniversario #EquipoVees #LuisBoyano #Eventos #Celebración #Networking #EventosCorporativos",
+    "cuando": "2026-11-17T12:37:28.922Z",
+    "aprobado": true,
+    "aprobado_en": "2026-11-17T12:38:28.922Z",
+    "origen": "chat (Julia: «Publicar en todas»)",
+    "formato": "foto",
+    "tema": "Ambisalud 20º aniversario: últimos ensayos con Luis Boyano",
+    "objetivo": "marca y relación con cliente",
+    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud."
+  },
+  {
+    "id": "2026-11-17-ambisalud-x",
+    "redes": [
+      "x"
+    ],
+    "imagen": "material/2026-11-ambisalud-x.jpg",
+    "texto_x": "🥂 Últimos ensayos con Luis Boyano, maestro de ceremonias del 20º aniversario de Ambisalud. Veinte años de trabajo, compromiso y confianza que merecen una gran celebración. ¡Orgullosos de acompañar a Ambisalud y Grupo Aire Limpio!\n\n#20Aniversario #EquipoVees",
+    "cuando": "2026-11-17T12:37:28.922Z",
+    "aprobado": true,
+    "aprobado_en": "2026-11-17T12:38:28.922Z",
+    "origen": "chat (Julia: «Publicar en todas»)",
+    "formato": "foto",
+    "tema": "Ambisalud 20º aniversario: últimos ensayos con Luis Boyano",
+    "objetivo": "marca y relación con cliente",
+    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud."
   }
 ]
