@@ -172,7 +172,20 @@
     "formato": "foto",
     "tema": "Ambisalud 20º aniversario: últimos ensayos con Luis Boyano",
     "objetivo": "marca y relación con cliente",
-    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud."
+    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud.",
+    "_fotos_meta": {
+      "material/2026-11-ambisalud-post.jpg": "1777835134346076"
+    },
+    "instagram": {
+      "publicado": "2026-11-17T12:39:00.078Z",
+      "enlace": "https://www.instagram.com/p/Df18x5ol_nM/",
+      "id": "17999540787022458"
+    },
+    "facebook": {
+      "publicado": "2026-11-17T12:39:04.096Z",
+      "enlace": "https://www.facebook.com/1777835414346048/posts/1777835384346051",
+      "id": "116291118397995_1777835384346051"
+    }
   },
   {
     "id": "2026-11-17-ambisalud-x",
@@ -188,6 +201,13 @@
     "formato": "foto",
     "tema": "Ambisalud 20º aniversario: últimos ensayos con Luis Boyano",
     "objetivo": "marca y relación con cliente",
-    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud."
+    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud.",
+    "_fotos_meta": {
+      "material/2026-11-ambisalud-x.jpg": "1777835454346044"
+    },
+    "x": {
+      "programado": "2026-11-17T12:44:04.468Z",
+      "buffer_id": "6afc4aea55207cffaeea71e1"
+    }
   }
 ]
