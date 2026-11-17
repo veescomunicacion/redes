@@ -257,5 +257,21 @@
       "enlace": "https://www.facebook.com/1777835414346048/posts/1777851904344399",
       "id": "116291118397995_1777851904344399"
     }
+  },
+  {
+    "id": "2026-11-17-ambisalud-v2-x",
+    "cuando": "2026-11-17T12:54:45.158Z",
+    "redes": [
+      "x"
+    ],
+    "aprobado": true,
+    "aprobado_en": "2026-11-17T12:55:45.158Z",
+    "origen": "chat (Julia: «ok» a publicar X, versión 2 con la foto nueva)",
+    "formato": "foto",
+    "imagen": "material/2026-11-ambisalud-v2-x.jpg",
+    "texto_x": "🥂 Últimos ensayos con @Iboyano, maestro de ceremonias del 20º aniversario de Ambisalud. Veinte años de trabajo, compromiso y confianza que merecen una gran celebración. ¡Orgullosos de acompañar a Ambisalud y Grupo Aire Limpio!\n\n#20Aniversario #EquipoVees",
+    "tema": "Ambisalud 20º aniversario: últimos ensayos con Luis Boyano",
+    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud.",
+    "nota": "Sustituye a 2026-11-17-ambisalud-x, que Julia borró a mano por la foto."
   }
 ]
