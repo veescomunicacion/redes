@@ -209,5 +209,21 @@
       "programado": "2026-11-17T12:44:04.468Z",
       "buffer_id": "6afc4aea55207cffaeea71e1"
     }
+  },
+  {
+    "id": "2026-11-17-ambisalud-v2-instagram",
+    "cuando": "2026-11-17T12:51:24.076Z",
+    "redes": [
+      "instagram"
+    ],
+    "aprobado": true,
+    "aprobado_en": "2026-11-17T12:52:24.076Z",
+    "origen": "chat (Julia: «Ok Instagram», versión 2 con la foto nueva)",
+    "formato": "foto",
+    "imagen": "material/2026-11-ambisalud-v2-post.jpg",
+    "texto": "🎤 Últimos ensayos con nuestro amigo @LuisBoyano antes de comenzar una celebración muy especial.\n\nHoy acompañamos a Ambisalud en su 20º aniversario, una ocasión para reunir a clientes, colaboradores y amigos que han formado parte de estos años de crecimiento y confianza.\n\nOrgullosos de compartir este momento junto a Grupo Aire Limpio.\n\n🥂 ¡Que empiece la celebración!\n\n#Ambisalud #GrupoAireLimpio #20Aniversario #EventosCorporativos #EquipoVees",
+    "tema": "Ambisalud 20º aniversario: últimos ensayos con Luis Boyano",
+    "alt": "Dos hombres sonriendo abrazados ante el photocall verde de Grupo Aire Limpio, antes del 20º aniversario de Ambisalud.",
+    "nota": "Sustituye a 2026-11-17-ambisalud-instagram-facebook (Instagram), que Julia borró a mano por la foto."
   }
 ]
